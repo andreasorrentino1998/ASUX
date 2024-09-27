@@ -1,0 +1,67 @@
+/**
+* ASUX: a mini C++ framework for creating interactive 
+* user interfaces for terminal-based applications.
+* 
+* Authors:
+* © 2024 - Andrea Sorrentino
+* 
+* ASUX is free software: you can redistribute it and/or modify it under the
+* terms of the GNU General Public License as published by the Free Software Foundation,
+* either version 3 of the License, or (at your option) any later version.
+*  
+* ASUX is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+* without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+* PURPOSE. See the GNU General Public License for more details.
+* 
+* You should have received a copy of the GNU General Public License along with ASUX.
+* If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#ifndef VIEW_H
+#define VIEW_H
+
+#include "component.h"
+#include "../navigator.h"
+#include <string>
+
+using namespace std;
+
+namespace ASUX {
+
+// Forward declaration (to solve circular-dependency)
+// TODO: Think of a better software design to solve that.
+class Navigator;
+class View: public UIComponent {
+    protected:
+        string _title;
+        Navigator *navigator;
+        unsigned _x = 0;
+        unsigned _y = 0;
+        unsigned _xMax = 0;
+        unsigned _yMax = 0;
+    public:
+        View(unsigned x = 0, unsigned y = 0, unsigned xMax = 0, unsigned yMax = 0);
+        virtual ~View(){}
+        
+        const string& getTitle() const;
+        int getX() const;
+        int getY() const;
+        int getMaxX() const;
+        int getMaxY() const;
+
+        void moveCursor(int x, int y);
+
+        void setTitle(string &title);
+        void setNavigator(Navigator *navigator);
+
+        View& title(const string &title);
+        View& x(unsigned value);
+        View& y(unsigned value);
+        View& xMax(unsigned value);
+        View& yMax(unsigned value);
+        void render() const override;
+};
+
+}
+
+#endif
