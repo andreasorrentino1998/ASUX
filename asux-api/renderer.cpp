@@ -63,11 +63,11 @@ void Renderer::render(UIComponent *component){
     cout << (component->getPosition() == Position::Default ? "\n": "") << flush;*/
 }
 
-void Renderer::render(list<ControllerOption> *options){
+/*void Renderer::render(list<ControllerOption> *options){
     cout << toANSICode(Color::Cyan);
     for(ControllerOption option: *options){
         if(option.key == "\n") cout << "[↵] " << option.name << " | ";
         else cout << "[" << option.key << "] " << option.name << " | ";
     }
     cout << toANSICode(Color::Default) << std::flush;
-}
+}*/

@@ -20,7 +20,6 @@
 #define RENDERER_H
 
 #include "components/component.h"
-#include "controller_option.h"
 #include <list>
 
 namespace ASUX {
@@ -30,7 +29,6 @@ class Renderer {
         Renderer();
     public:
         static void render(UIComponent *component);
-        static void render(list<ControllerOption> *options);
 };
 
 }

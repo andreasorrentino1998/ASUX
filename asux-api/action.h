@@ -31,9 +31,6 @@ class Action {
 
 template <typename T>
 class MemberAction : public Action {
-    private:
-        T* instance;
-        FuncT func;
     public:
         using FuncT = void (T::*)(Key key);
 
@@ -45,6 +42,9 @@ class MemberAction : public Action {
         void call(Key key) override {
             (instance->*func)(key);
         }
+    private:
+        T* instance;
+        FuncT func;
 };
 
 }

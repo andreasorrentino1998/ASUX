@@ -89,11 +89,11 @@ void View::moveCursor(int x, int y){
     int newX = this->_x + x;
     int newY = this->_y + y;
 
-    if(newX < _xMax) this->_x = newX;
+    if(newX < static_cast<int>(_xMax)) this->_x = newX;
     else if(newX < 0) this->_x = 0;
     else this->_x = _xMax;
 
-    if(newY < _yMax) this->_y = newY;
+    if(newY < static_cast<int>(_yMax)) this->_y = newY;
     else if(newY < 0) this->_y = 0;
     else this->_y = _yMax;
 }
