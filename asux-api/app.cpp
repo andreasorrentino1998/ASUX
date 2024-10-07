@@ -27,18 +27,13 @@ using namespace std;
 
 App::App(){
     this->instance = nullptr;
-    this->navigationController = nullptr;
+    this->navigator = nullptr;
 }
 
 App* App::init(){
     App *app = new App();
-    app->navigationController = new NavigationController();
     app->navigator = new Navigator();
     return app;
-}
-
-void App::setRootViewController(ViewController *viewController){
-    this->navigationController->navigateTo(viewController);
 }
 
 void App::setRootView(View *view){
@@ -60,39 +55,24 @@ void App::runLoop(){
 
     // Execute the first all cycle (in order to init the view model)
     // At the boot we suppose the model has been changed.
-    //this->navigationController->currentViewController()->run(' ');
     bool modelChanged = true;
 
     do{
         // Get the current view controller, view and the navigation bar
-        /*ViewController *viewController = navigationController->currentViewController();
-        View *view = viewController->getView();
-        NavigationBar navigationBar = this->navigationController->getNavigationBar();*/
         View *view = navigator->getCurrentView();
         NavigationBar navigationBar = this->navigator->getNavigationBar();
 
-        // Render the updated UI if the model is changed
-        // TODO: implement a mechanism to detect when the model is changed
-        // in order to avoid redrawing the same content again.
-        //if(navigationController->navigationBarShouldBeRendered())
+        // Render the updated UI if the model has changed
+        // TODO: detect when the model changes in order to avoid redrawing the same content again.
         if(modelChanged){
             Terminal::clear();
             if(navigator->navigationBarShouldBeRendered()) Renderer::render(&navigationBar);
             Renderer::render(view);
             modelChanged = false;
         }
-        //Renderer::render(viewController->setOptions());
 
         // Get inputs from user (blocking)
-        char command = Terminal::getKey();
-
-        /* If the view controller has the "writing mode" enabled (e.g. the user is typing on a search bar),
-        the main app should not intercept the inputs until the view controller hasn't disabled that mode. */
-        /*if(viewController->hasWritingModeEnabled()){
-            viewController->run(command);
-            Terminal::clear();
-            continue;
-        }*/
+        char command = Terminal::getKey(); 
 
         // App navigation logic
         switch(toupper(command)){
@@ -102,7 +82,6 @@ void App::runLoop(){
                 break;
             case 127: // Backspace
                 Terminal::clear();
-                //navigationController->navigateBack();
                 navigator->navigateBack();
                 break;
             case 27: // ESC

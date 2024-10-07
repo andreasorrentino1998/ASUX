@@ -25,8 +25,4 @@
 #include "components/components.h"
 #include "components/properties/properties.h"
 
-// TO DELETE
-#include "navigation_controller.h"
-#include "controller_option.h"
-
 #endif

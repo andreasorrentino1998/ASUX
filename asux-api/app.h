@@ -19,7 +19,6 @@
 #ifndef APP_H
 #define APP_H
 
-#include "navigation_controller.h"
 #include "navigator.h"
 
 namespace ASUX {
@@ -27,12 +26,10 @@ namespace ASUX {
 class App {
     private:
         App *instance;
-        NavigationController *navigationController;
         Navigator *navigator;
         App();
     public:
         static App* init();
-        void setRootViewController(ViewController *viewController);
         void setRootView(View *view);
         void runLoop();
 };
