@@ -16,29 +16,36 @@
 * If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PROGRESS_BAR_H
-#define PROGRESS_BAR_H
+#ifndef NAVIGATION_BAR_H
+#define NAVIGATION_BAR_H
 
-#include "component.h"
-#include "properties/color.h"
+#include "components/component.h"
+#include "components/properties/color.h"
+#include <string>
+
+// ANSI TEXT FORMATTING ESCAPE SEQUENCES
+#define BOLD_TEXT "\033[1m"
+#define NORMAL_TEXT "\033[22m"
+#define RESET_TEXT "\033[0m"
+
+using namespace ASUX;
+using namespace std;
 
 namespace ASUX {
 
-class ProgressBar: public UIComponent {
+class NavigationBar: public UIComponent {
     private:
-        unsigned _progress;
-        bool showPercentage;
-        Color _color;
+        string title;
+        string backLabel;
+        bool backButtonVisibility;
     public:
-        ProgressBar(unsigned width = 5, unsigned height = 1, Position position = Position::Default);
-        Color getColor() const;
-        unsigned getProgress() const;
-        ProgressBar& color(Color color);
-        ProgressBar& progress(unsigned value);
-        void increaseProgress(unsigned value);
-        void decreaseProgress(unsigned value);
-        ProgressBar& percentageVisibility(bool value);
-        void render() const override;
+        NavigationBar();
+        const string& getTitle() const;
+        const string& getBackLabel() const;
+        void setTitle(const string &title);
+        void setBackLabel(const string &title);
+        void setBackButtonVisibility(const bool value);
+        virtual void render() const override;
         const vector<UIComponent*> build() override;
 };
 

@@ -1,7 +1,6 @@
 /**
-* ASUX: a mini C++ framework for creating interactive 
-* user interfaces for terminal-based applications.
-* 
+* ASUX: A lightweight C++ reactive framework for building terminal-based applications. 
+*
 * Authors:
 * © 2024 - Andrea Sorrentino
 * 
@@ -24,10 +23,10 @@
 
 using namespace ASUX;
 
-Button::Button(const string& label, Position position): UIComponent(position){
+Button::Button(const string& text, Position position): UIComponent(position){
     this->_padding = {0, 0, 0, 0 };
     this->_size = {5, 5};
-    this->_label = label;
+    this->_text = text;
     this->_color = Color::Default;
 }
 
@@ -40,8 +39,8 @@ Button& Button::color(Color color){
     return *this;
 }
 
-Button& Button::label(const string& text){
-    this->_label = text;
+Button& Button::text(const string& text){
+    this->_text = text;
     return *this;
 }
 
@@ -49,18 +48,18 @@ void Button::render() const {
     // Set button color
     cout << toANSICode(_color);
 
-    // Degenerate case --> [Label]
+    // Degenerate case --> [text]
     if(_padding.top == _padding.bottom == 0){
-        cout << "[" + repeater(' ', _padding.left) + _label + repeater(' ', _padding.right) + "]";
+        cout << "[" + repeater(' ', _padding.left) + _text + repeater(' ', _padding.right) + "]";
         cout << toANSICode(Color::Default);
         return;
     }
 
     // Calculate string piecies
-    unsigned width = _padding.left + _label.length() + _padding.right;
+    unsigned width = _padding.left + _text.length() + _padding.right;
     string topBorder = "┌" + repeater("─", width) + "┐\n";
     string paddingLine = "│" + repeater(' ', width) + "│\n";
-    string labelLine = "│" + repeater(' ', _padding.left) + _label + repeater(' ', _padding.right) + "│\n";
+    string textLine = "│" + repeater(' ', _padding.left) + _text + repeater(' ', _padding.right) + "│\n";
     string bottomBorder = "└" + repeater("─", width) + "┘";
 
     if(_padding.top > 0){
@@ -68,7 +67,7 @@ void Button::render() const {
         cout << repeater(paddingLine, _padding.top - 1);
     }
 
-    cout << labelLine;
+    cout << textLine;
 
     if(_padding.bottom > 0){
         cout << repeater(paddingLine, _padding.bottom - 1);

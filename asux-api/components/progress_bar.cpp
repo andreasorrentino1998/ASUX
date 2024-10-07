@@ -1,7 +1,6 @@
 /**
-* ASUX: a mini C++ framework for creating interactive 
-* user interfaces for terminal-based applications.
-* 
+* ASUX: A lightweight C++ reactive framework for building terminal-based applications. 
+*
 * Authors:
 * © 2024 - Andrea Sorrentino
 * 

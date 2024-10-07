@@ -16,15 +16,14 @@
 * If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef COMPONENTS_H
-#define COMPONENTS_H
+#include "ASUX/app.h"
+#include "views/main_view.h"
 
-#include "component.h"
-#include "components/view.h"
-#include "components/list.h"
-#include "components/text.h"
-#include "components/button.h"
-#include "components/progress_bar.h"
-#include "components/option.h"
+using namespace ASUX;
 
-#endif
+int main(){
+    App *app = App::init();
+    app->setRootView(new MainView());
+    app->runLoop();
+    return 0;
+}

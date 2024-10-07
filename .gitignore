@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+asux-api/.DS_Store
+
+# VSCode
+.vscode
+
+# Output
+asux-api/bin/*
+app-template/bin/*

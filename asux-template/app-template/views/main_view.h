@@ -16,32 +16,28 @@
 * If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PROGRESS_BAR_H
-#define PROGRESS_BAR_H
+#ifndef MAIN_VIEW_H
+#define MAIN_VIEW_H
 
-#include "component.h"
-#include "properties/color.h"
+#include "ASUX/components/components.h"
+#include "../components/my_component.h"
 
-namespace ASUX {
+using namespace ASUX;
 
-class ProgressBar: public UIComponent {
-    private:
-        unsigned _progress;
-        bool showPercentage;
-        Color _color;
+class MainView: public View {
     public:
-        ProgressBar(unsigned width = 5, unsigned height = 1, Position position = Position::Default);
-        Color getColor() const;
-        unsigned getProgress() const;
-        ProgressBar& color(Color color);
-        ProgressBar& progress(unsigned value);
-        void increaseProgress(unsigned value);
-        void decreaseProgress(unsigned value);
-        ProgressBar& percentageVisibility(bool value);
-        void render() const override;
-        const vector<UIComponent*> build() override;
-};
+        MainView(){
+            _this
+                .title("MAIN VIEW");
+        }
 
-}
+        const vector<UIComponent*> build() override {
+            return {
+                _(Text)
+                    .text("Hello World"),
+                _(MyComponent)
+            };
+        }
+};
 
 #endif

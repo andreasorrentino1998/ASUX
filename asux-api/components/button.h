@@ -1,7 +1,6 @@
 /**
-* ASUX: a mini C++ framework for creating interactive 
-* user interfaces for terminal-based applications.
-* 
+* ASUX: A lightweight C++ reactive framework for building terminal-based applications. 
+*
 * Authors:
 * © 2024 - Andrea Sorrentino
 * 
@@ -33,13 +32,13 @@ namespace ASUX {
 
 class Button: public UIComponent {
     private:
-        string _label;
+        string _text;
         Color _color;
     public:
-        Button(const string& label = "Button", Position position = Position::Default);
+        Button(const string& text = "Button", Position position = Position::Default);
         Color getColor() const;
         Button& color(Color color);
-        Button& label(const string& text);
+        Button& text(const string& text);
         void render() const override;
         const vector<UIComponent*> build() override;
 };

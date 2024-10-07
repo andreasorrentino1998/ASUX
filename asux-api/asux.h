@@ -1,6 +1,6 @@
 /**
-* ASUX: A lightweight C++ reactive framework for building terminal-based applications. 
-*
+* ASUX: A lightweight C++ reactive framework for building terminal-based applications.
+* 
 * Authors:
 * © 2024 - Andrea Sorrentino
 * 
@@ -16,15 +16,17 @@
 * If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef COMPONENTS_H
-#define COMPONENTS_H
+#ifndef ASUX_H
+#define ASUX_H
 
-#include "component.h"
-#include "components/view.h"
-#include "components/list.h"
-#include "components/text.h"
-#include "components/button.h"
-#include "components/progress_bar.h"
-#include "components/option.h"
+#include "app.h"
+#include "view.h"
+#include "navigator.h"
+#include "components/components.h"
+#include "components/properties/properties.h"
+
+// TO DELETE
+#include "navigation_controller.h"
+#include "controller_option.h"
 
 #endif
