@@ -16,7 +16,7 @@
 
 # Output config
 TARGET_DIR = bin
-ASUX_LIB = $(TARGET_DIR)/libASUX
+ASUX_LIB = $(TARGET_DIR)/libASUX.a
 
 # Compilator config
 CXX = g++
@@ -39,7 +39,7 @@ CREATE_OUTPUT_DIRS:
 
 # Build the static library
 ASUX_LIB: $(OBJS)
-	ar rcs $(TARGET_DIR)/libASUX.a $(OBJS)
+	ar rcs $(ASUX_LIB) $(OBJS)
 
 # Compilation rule
 $(TARGET_DIR)/obj/%.o: %.cpp %.h
@@ -47,4 +47,4 @@ $(TARGET_DIR)/obj/%.o: %.cpp %.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(MAIN_EXE) $(OBJS)
+	rm -rf $(ASUX_LIB) $(OBJS)
