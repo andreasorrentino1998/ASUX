@@ -46,6 +46,7 @@ class UIComponent {
         bool _visibility;
         
     public:
+        vector<UIComponent*> children;
         multimap<Key, Action*> actions;
 
         UIComponent(Position position = Position::Default);

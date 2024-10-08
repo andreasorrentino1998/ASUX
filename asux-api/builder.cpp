@@ -17,9 +17,20 @@
 */
 
 #include "builder.h"
+#include "components/raw_component.h"
 
 using namespace ASUX;
 
 void Builder::build(UIComponent *component){
-
+    // If it's a raw component, it doesn't have child, so just return.
+    // Otherwise deallocate its old children and build them again.
+    if(RawComponent *raw = dynamic_cast<RawComponent*>(component)) return;
+    
+    if(component->children.size() > 0){
+        for(UIComponent* child: component->children) delete child;
+    }
+    
+    // Build its children recursively
+     component->children = component->build();
+    for(unsigned i = 0; i < component->children.size(); i++) build(component->children[i]);
 }

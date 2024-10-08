@@ -30,6 +30,7 @@ namespace ASUX {
 // Forward declaration (to solve circular-dependency)
 // TODO: Think of a better software design to solve that.
 class Navigator;
+
 class View: public UIComponent {
     protected:
         string _title;

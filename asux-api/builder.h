@@ -23,13 +23,11 @@
 
 namespace ASUX {
 
-class Builder {
-    private:
-        vector<UIComponent> tree;
-    public:
-        Builder();
-        static void build(UIComponent *component);
-};
+namespace Builder {
+
+    void build(UIComponent *component);
+
+}
 
 }
 

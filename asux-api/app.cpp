@@ -20,6 +20,7 @@
 
 #include "renderer.h"
 #include "terminal.h"
+#include "builder.h"
 #include "input.h"
 #include <cctype>       // Provides: toupper()
 
@@ -45,14 +46,25 @@ void App::runLoop(){
     // Init the terminal
     Terminal::init();
 
-    // Execute the first all cycle (in order to init the view model)
     // At the boot we suppose the model has been changed.
+    // In order to build the component tree and render it.
+    UIComponent *dirtyComponent = nullptr;
+    bool boot = true;
     bool modelChanged = true;
-
+    
     do{
-        // Get the current view controller, view and the navigation bar
+        // Get the current view and the navigation bar
         View *view = navigator->getCurrentView();
         NavigationBar navigationBar = this->navigator->getNavigationBar();
+
+        // Build the component tree at the first time
+        if(boot){
+            Builder::build(view);
+            boot = false;
+        }
+
+        // Rebuild the ontop dirty component
+        if(dirtyComponent != nullptr) Builder::build(dirtyComponent);
 
         // Render the updated UI if the model has changed
         // TODO: detect when the model changes in order to avoid redrawing the same content again.
@@ -73,15 +85,16 @@ void App::runLoop(){
                 exit(0);
                 break;
             case Key::Backspace:
-                Terminal::clear();
                 navigator->navigateBack();
                 break;
             default:
-                Input::triggerActions(view, key);
+                dirtyComponent = Input::triggerActions(view, key);
                 break;
         }
-    
-        // TODO: detect when the model changes
-        modelChanged = true;
+
+        // In our model we made the assumption "action -> model change".
+        // Thus, if we has triggered an action on a component, we need to rebuild it
+        // along with its children and doing a new rendering of the component tree.
+        if(dirtyComponent != nullptr) modelChanged = true;
     } while(true);
 }

@@ -31,49 +31,22 @@ using namespace ASUX;
 using namespace std;
 
 void Renderer::render(UIComponent *component){
+    // If the component is set as invisible, don't render it.
     if(!component->getVisibility()) return;
 
-    const vector<UIComponent*> children = component->build();
-    if(children.size() == 0){
+    // Render the component
+    if(component->children.size() == 0){
         cout << repeater("\n", component->getMarginTop());
         if(RawComponent *raw = dynamic_cast<RawComponent*>(component)){
             cout << *raw->render() << flush;
         }
-        else component->build();
         cout << repeater("\n", component->getMarginBottom());
         cout << (component->getPosition() == Position::Default ? "\n": "") << flush;
         return;
     }
 
-    for(unsigned i = 0; i < children.size(); i++) render(children[i]);
+    // Render the component children
+    for(unsigned i = 0; i < component->children.size(); i++) render(component->children[i]);
 
     cout << (component->getPosition() == Position::Default ? "\n": "") << flush;
-    
-    if(View* view = dynamic_cast<View*>(component)){
-        //cout << "È di tipo View";
-    }
-    //else delete component;
-
-    // Free all children components
-    for(UIComponent* child: children) delete child;
-
-    /*if(component->structure().childrenCount == 0){
-        cout << repeater("\n", component->getMarginTop());
-        component->render();
-        cout << repeater("\n", component->getMarginBottom());
-    }
-
-    for(unsigned i = 0; i < component->structure().childrenCount; i++)
-        render(component->structure().children[i]);
-
-    cout << (component->getPosition() == Position::Default ? "\n": "") << flush;*/
 }
-
-/*void Renderer::render(list<ControllerOption> *options){
-    cout << toANSICode(Color::Cyan);
-    for(ControllerOption option: *options){
-        if(option.key == "\n") cout << "[↵] " << option.name << " | ";
-        else cout << "[" << option.key << "] " << option.name << " | ";
-    }
-    cout << toANSICode(Color::Default) << std::flush;
-}*/

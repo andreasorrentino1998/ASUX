@@ -26,7 +26,7 @@ namespace ASUX {
 class Action {
     public:
         virtual ~Action() = default;
-        virtual void call(Key value) = 0;
+        virtual void operator()(Key key) = 0;
 };
 
 template <typename T>
@@ -39,9 +39,14 @@ class MemberAction : public Action {
             this->func = func;
         };
 
-        void call(Key key) override {
+        T* getInstance(){
+            return instance;
+        }
+
+        void operator()(Key key) override {
             (instance->*func)(key);
         }
+
     private:
         T* instance;
         FuncT func;

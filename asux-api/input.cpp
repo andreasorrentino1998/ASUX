@@ -1,14 +1,24 @@
 #include "input.h"
+#include "action.h"
 
 using namespace ASUX;
 
-void Input::triggerActions(UIComponent *component, Key key){
-    const vector<UIComponent*> children = component->build();
-    for(unsigned i = 0; i < children.size(); i++) triggerActions(children[i], key);
+UIComponent* Input::triggerActions(UIComponent *component, Key key){
+    // Ontop dirty component
+    UIComponent *dirtyComponent = nullptr;
 
-    // Call the entire set of actions associated with the key
+    // Trigger actions on the component children
+    const vector<UIComponent*> children = component->build();
+    for(unsigned i = 0; i < children.size(); i++) dirtyComponent = triggerActions(children[i], key);
+
+    // Trigger action on the current component
     auto range = component->actions.equal_range(key);
-    for(auto it = range.first; it != range.second; it++) it->second->call(key);
+    for(auto it = range.first; it != range.second; it++){
+        (*it->second)(key);
+        dirtyComponent = component;
+    }
+
+    return dirtyComponent;
 }
 
 Key Input::getInputKey(){
