@@ -21,10 +21,15 @@
 using namespace ASUX;
 
 View::View(unsigned x, unsigned y, unsigned xMax, unsigned yMax): UIComponent(Position::Default){
-    this->_title = "";
-    this->_xMax = xMax;
-    this->_yMax = yMax;
-
+    _this
+        .title("")
+        .xMax(xMax)
+        .yMax(yMax)
+        .onKey(Key::Up, &View::moveCursor, this)
+        .onKey(Key::Down, &View::moveCursor, this)
+        .onKey(Key::Left, &View::moveCursor, this)
+        .onKey(Key::Right, &View::moveCursor, this);
+    
     if(this->_x < xMax) this->_x = x;
     else this->_x = xMax;
 
@@ -96,4 +101,23 @@ void View::moveCursor(int x, int y){
     if(newY < 0) this->_y = 0;
     else if(newY > static_cast<int>(_yMax)) this->_y = _yMax;
     else this->_y = newY;
+}
+
+void View::moveCursor(Key key){
+    switch(key){
+        case Key::Up:
+            this->moveCursor(0, -1);
+            break;
+        case Key::Down:
+            this->moveCursor(0, 1);
+            break;
+        case Key::Left:
+            this->moveCursor(1, 0);
+            break;
+        case Key::Right:
+            this->moveCursor(-1, 0);
+            break;
+        default:
+            break;
+    }
 }

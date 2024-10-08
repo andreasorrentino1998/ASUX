@@ -20,6 +20,7 @@
 
 #include "renderer.h"
 #include "terminal.h"
+#include "input.h"
 #include <cctype>       // Provides: toupper()
 
 using namespace ASUX;
@@ -38,15 +39,6 @@ App* App::init(){
 
 void App::setRootView(View *view){
     this->navigator->navigateTo(view);
-}
-
-void executeActions(UIComponent *component, Key key){
-    const vector<UIComponent*> children = component->build();
-    for(unsigned i = 0; i < children.size(); i++) executeActions(children[i], key);
-    
-    if(component->actions.find(key) != component->actions.end()){
-        component->actions[key]->call(key);
-    }
 }
 
 void App::runLoop(){
@@ -71,48 +63,25 @@ void App::runLoop(){
             modelChanged = false;
         }
 
-        // Get inputs from user (blocking)
-        char command = Terminal::getKey(); 
-
+        // Get the keyboard input from user
+        Key key = ASUX::Input::getInputKey();
+        
         // App navigation logic
-        switch(toupper(command)){
-            case 'X':
+        switch(key){
+            case Key::ESC:
                 Terminal::deinit();
                 exit(0);
                 break;
-            case 127: // Backspace
+            case Key::Backspace:
                 Terminal::clear();
                 navigator->navigateBack();
                 break;
-            case 27: // ESC
-                command = Terminal::getKey();
-                if(command == '['){
-                    command = Terminal::getKey();
-                    switch(std::toupper(command)){
-                        case 'A':    // UP Arrow -> "ESC [ A"
-                            view->moveCursor(0, -1);
-                            executeActions(view, Key::Up);
-                            break;
-                        case 'B':   // DOWN Arrow -> "ESC [ B"
-                            view->moveCursor(0, 1);
-                            executeActions(view, Key::Down);
-                            break;
-                        case 'C':   // RIGHT Arrow -> "ESC [ C"
-                            view->moveCursor(1, 0);
-                            executeActions(view, Key::Right);
-                            break;
-                        case 'D':   // LEFT Arrow -> "ESC [ D"
-                            view->moveCursor(-1, 0);
-                            executeActions(view, Key::Left);
-                            break;
-                    }
-                }
-                // TODO: detect when the model changes
-                modelChanged = true;
-                break;
             default:
+                Input::triggerActions(view, key);
                 break;
         }
     
+        // TODO: detect when the model changes
+        modelChanged = true;
     } while(true);
 }

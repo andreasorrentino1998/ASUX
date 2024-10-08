@@ -49,6 +49,7 @@ class View: public UIComponent {
         int getMaxY() const;
 
         void moveCursor(int x, int y);
+        void moveCursor(Key key);
 
         void setTitle(string &title);
         void setNavigator(Navigator *navigator);

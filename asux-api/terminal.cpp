@@ -66,9 +66,10 @@ void signalHander(int signal){
     exit(signal);
 }
 
-char Terminal::getKey(){
-    char buf = 0;
-
+char* Terminal::getChar(const size_t n){
+    // Buffer to store ASCII char sequence
+    char *buffer = new char[n]{0};
+    
     // Signal handler
     signal(SIGINT, signalHander);
 
@@ -78,11 +79,11 @@ char Terminal::getKey(){
     // Set the terminal in raw mode
     setRawMode(orig_termios);
 
-    // Read a single character
-    read(STDIN_FILENO, &buf, 1);
+    // Read the last N characters
+    read(STDIN_FILENO, buffer, n);
 
     // Reset the terminal mode
     resetMode(orig_termios);
 
-    return buf;
+    return buffer;
 }

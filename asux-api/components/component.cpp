@@ -25,7 +25,7 @@ UIComponent::UIComponent(Position position){
     this->_padding = {0, 0, 0, 0};
     this->_margin = {0, 0, 0, 0};
     this->_visibility = true;
-    this->actions = map<Key, Action*>();
+    this->actions = multimap<Key, Action*>();
 }
 
 bool UIComponent::getVisibility() const {

@@ -22,6 +22,7 @@
 #include "components/properties/size.h"
 
 #include <termios.h>        // Provides: termios
+#include <stddef.h>         // Provides: size_t
 
 using namespace ASUX;
 
@@ -35,7 +36,7 @@ namespace Terminal {
     Size getWindowSize();
     void setRawMode(termios& orig_termios);
     void resetMode(termios& orig_termios);
-    char getKey();
+    char* getChar(const size_t n);
     void clear();
 };
 

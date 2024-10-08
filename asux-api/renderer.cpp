@@ -31,6 +31,8 @@ using namespace ASUX;
 using namespace std;
 
 void Renderer::render(UIComponent *component){
+    if(!component->getVisibility()) return;
+
     const vector<UIComponent*> children = component->build();
     if(children.size() == 0){
         cout << repeater("\n", component->getMarginTop());

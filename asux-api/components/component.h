@@ -46,7 +46,7 @@ class UIComponent {
         bool _visibility;
         
     public:
-        map<Key, Action*> actions;
+        multimap<Key, Action*> actions;
 
         UIComponent(Position position = Position::Default);
         virtual ~UIComponent(){};  // Required for using it as an item in <vector>.

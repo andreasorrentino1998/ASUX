@@ -23,11 +23,10 @@
 
 namespace ASUX {
 
-class Renderer {
-    private:
-        Renderer();
-    public:
-        static void render(UIComponent *component);
+namespace Renderer {
+    
+    void render(UIComponent *component);
+    
 };
 
 }

@@ -23,7 +23,7 @@
 
 using namespace std;
 
-string repeater(const char c, const unsigned n);
-string repeater(const string& s, const unsigned n);
+string repeater(const char c, const int n);
+string repeater(const string& s, const int n);
 
 #endif

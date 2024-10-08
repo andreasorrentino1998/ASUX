@@ -18,14 +18,14 @@
 
 #include "string_util.h"
 
-string repeater(const char c, const unsigned n){
+string repeater(const char c, const int n){
     string str = "";
-    for(unsigned i = 0; i < n; i++) str += c;
+    for(int i = 0; i < n; i++) str += c;
     return str;
 }
 
-string repeater(const string& s, const unsigned n){
+string repeater(const string& s, const int n){
     string str = "";
-    for(unsigned i = 0; i < n; i++) str += s;
+    for(int i = 0; i < n; i++) str += s;
     return str;
 }

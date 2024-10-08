@@ -21,7 +21,53 @@
 
 namespace ASUX {
 
-enum class Key{ Up, Down, Left, Right };
+enum ASCIIKey {
+    Null = 0,
+    Backspace = 8,
+    HorizontalTab = 9,
+    LineFeed = 10,
+    VerticalTab = 11,
+    CarriageReturn = 13,
+    ShiftOut = 14,
+    ShifIn = 15,
+    Cancel = 24,
+    ESC = 27,
+    Space = 32,
+    ExclamationMark = 33,
+
+    Semicolon = 59,
+    LessThan,
+    Equal,
+    GreaterThan,
+    QuestionMark,
+    A = 65, B, C, D, E, F, G, H, I, 
+    J, K, L, M, N, O, P, Q, R, S,
+    T, U, V, W, X, Y, Z,
+    LeftBracket,
+    Backslash,
+    RightBracket,
+    Caret,
+    Underscore,
+    Backtick,
+    a = 97, b, c, d, e, f, g, h, i,
+    j, k, l, m, n, o, p, q, r, s,
+    t, u, v, w, x, y, z,
+    LeftBrace,
+    VerticalBar,
+    RightBrace,
+    Tilde,
+    Delete,
+};
+
+enum class Key {
+    Null = 0,
+    Backspace = 8,
+    ESC = 27,
+    A = 65, B, C, D, E, F, G, H, I, 
+    J, K, L, M, N, O, P, Q, R, S,
+    T, U, V, W, X, Y, Z,
+    Up, Down, Left, Right, Enter,
+};
 
 }
 

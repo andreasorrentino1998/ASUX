@@ -72,7 +72,7 @@ const string* Text::render() const {
     // Set text color and background color
     component += toANSICode(_color, _backgroundColor);
 
-    string paddingLine = repeater(" ", _padding.left + _text.length()-1 + _padding.right) + "\n";
+    string paddingLine = repeater(" ", _padding.left + _text.length() + _padding.right) + "\n";
     string textLine = repeater(" ", _padding.left) + _text + repeater(" ", _padding.right) + "\n";
     
     // Render
