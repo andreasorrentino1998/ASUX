@@ -19,12 +19,12 @@
 #ifndef PROGRESS_BAR_H
 #define PROGRESS_BAR_H
 
-#include "component.h"
+#include "raw_component.h"
 #include "properties/color.h"
 
 namespace ASUX {
 
-class ProgressBar: public UIComponent {
+class ProgressBar: public RawComponent {
     private:
         unsigned _progress;
         bool showPercentage;
@@ -38,8 +38,7 @@ class ProgressBar: public UIComponent {
         void increaseProgress(unsigned value);
         void decreaseProgress(unsigned value);
         ProgressBar& percentageVisibility(bool value);
-        void render() const override;
-        const vector<UIComponent*> build() override;
+        const string* render() const override;
 };
 
 }

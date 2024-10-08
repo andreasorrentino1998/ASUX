@@ -96,8 +96,6 @@ class UIComponent {
             actions.insert({key, new MemberAction<T>(instance, func)});
             return *this;
         }
-
-        virtual void render() const = 0;
         virtual const vector<UIComponent*> build() = 0;
 };
 

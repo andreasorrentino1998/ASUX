@@ -23,7 +23,7 @@
 
 using namespace ASUX;
 
-Text::Text(const string& text, Position position): UIComponent(position){
+Text::Text(const string& text, Position position): RawComponent(position){
     this->_text = text;
     this->_color = Color::Default;
     this->_backgroundColor = Color::Default;
@@ -66,22 +66,22 @@ Text& Text::textStyle(TextStyle style){
     return *this;
 }
 
-void Text::render() const {
+const string* Text::render() const {
+    string component = "";
+
     // Set text color and background color
-    cout << toANSICode(_color, _backgroundColor);
+    component += toANSICode(_color, _backgroundColor);
 
     string paddingLine = repeater(" ", _padding.left + _text.length()-1 + _padding.right) + "\n";
     string textLine = repeater(" ", _padding.left) + _text + repeater(" ", _padding.right) + "\n";
     
     // Render
-    cout << repeater(paddingLine, _padding.top);
-    cout << textLine;
-    cout << repeater(paddingLine, _padding.bottom);
+    component += repeater(paddingLine, _padding.top);
+    component += textLine;
+    component += repeater(paddingLine, _padding.bottom);
 
     // Reset color to default
-    cout << RESET_BG_COLOR << flush;
-}
+    component += RESET_BG_COLOR;
 
-const vector<UIComponent*> Text::build(){
-    return {};
+    return new string(component);
 }

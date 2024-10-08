@@ -20,7 +20,6 @@
 #define RENDERER_H
 
 #include "components/component.h"
-#include <list>
 
 namespace ASUX {
 

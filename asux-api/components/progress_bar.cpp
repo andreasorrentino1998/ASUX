@@ -19,12 +19,11 @@
 #include "progress_bar.h"
 
 #include <string>
-#include <iostream>
 
 using namespace ASUX;
 using namespace std;
 
-ProgressBar::ProgressBar(unsigned width, unsigned height, Position position): UIComponent(position){
+ProgressBar::ProgressBar(unsigned width, unsigned height, Position position): RawComponent(position){
     this->_size = {width, height};
     this->_progress = 0;
 }
@@ -63,7 +62,9 @@ ProgressBar& ProgressBar::percentageVisibility(bool value){
     return *this;
 }
 
-void ProgressBar::render() const {
+const string* ProgressBar::render() const {
+    string component = "";
+
     // Calculate the number of progress bar blocks
     double blockStep = (double) (1.0 * _size.width) / 100;
     unsigned filledBlocks = blockStep * _progress;
@@ -74,16 +75,13 @@ void ProgressBar::render() const {
     for(unsigned i = 0; i < filledBlocks; i++) progressBar += "█";
     for(unsigned i = 0; i < emptyBlocks; i++) progressBar += " ";
 
-
-    // Render
+    // Generate the component
     for(unsigned i = 0; i < _size.height; i++){
-        cout << toANSICode(_color) << progressBar << "▏" << toANSICode(Color::Default);
-        cout << (((i+1 == _size.height / 2 && !(_size.height % 2)) || 
+        component += toANSICode(_color)  + progressBar + "▏" + toANSICode(Color::Default);
+        component += (((i+1 == _size.height / 2 && !(_size.height % 2)) || 
                 (i == _size.height / 2 && (_size.height % 2))) &&
-                showPercentage ? to_string(_progress) + "%": "") << endl;
+                showPercentage ? to_string(_progress) + "%": "") + "\n";
     }
-}
 
-const vector<UIComponent*> ProgressBar::build(){
-    return {};
+    return new string(component);
 }

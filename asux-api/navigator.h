@@ -20,7 +20,7 @@
 #define NAVIGATOR_H
 
 #include "components/view.h"
-#include "navigation_bar.h"
+#include "components/navigation_bar.h"
 
 #include <stack>                    // Provides: stack
 

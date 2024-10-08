@@ -58,7 +58,6 @@ class View: public UIComponent {
         View& y(unsigned value);
         View& xMax(unsigned value);
         View& yMax(unsigned value);
-        void render() const override;
 };
 
 }

@@ -23,7 +23,7 @@
 using namespace ASUX;
 using namespace std;
 
-NavigationBar::NavigationBar(): UIComponent(Position::Default){
+NavigationBar::NavigationBar(): RawComponent(Position::Default){
     title = backLabel = "";
     backButtonVisibility = false;
 }
@@ -48,11 +48,9 @@ void NavigationBar::setBackButtonVisibility(const bool value){
     backButtonVisibility = value;
 }
 
-void NavigationBar::render() const {
-    if(backButtonVisibility) cout << "< " << backLabel << "\t";  // BOLD: ━━━━━━
-    cout << toANSICode(Color::Cyan) << BOLD_TEXT << "─────────── " + title + " ────────────────" << NORMAL_TEXT << toANSICode(Color::Default);
-}
-
-const vector<UIComponent*> NavigationBar::build(){
-    return {};
+const string* NavigationBar::render() const {
+    string component = "";
+    if(backButtonVisibility) component += "< " + backLabel + "\t";  // BOLD: ━━━━━━
+    component += toANSICode(Color::Cyan) + BOLD_TEXT + "─────────── " + title + " ────────────────" + NORMAL_TEXT + toANSICode(Color::Default);
+    return new string(component);
 }

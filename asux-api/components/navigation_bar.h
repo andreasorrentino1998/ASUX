@@ -16,38 +16,36 @@
 * If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef UI_LIST_H
-#define UI_LIST_H
+#ifndef NAVIGATION_BAR_H
+#define NAVIGATION_BAR_H
 
-#include "component.h"
+#include "raw_component.h"
+#include "properties/color.h"
+#include <string>
 
-#include <functional>
-#include <vector>
+// ANSI TEXT FORMATTING ESCAPE SEQUENCES
+#define BOLD_TEXT "\033[1m"
+#define NORMAL_TEXT "\033[22m"
+#define RESET_TEXT "\033[0m"
+
+using namespace ASUX;
+using namespace std;
 
 namespace ASUX {
 
-enum class ListStyle {
-    None,
-    Enumerated,
-    Bullet,
-    Arrow,
-};
-
-typedef function<UIComponent*(unsigned index)> ListBuilder;
-
-class UIList: public UIComponent {
-    protected:
-        unsigned _itemsCount;
-        ListBuilder _builder;
-        ListStyle _style;
-        unsigned _spacing;
+class NavigationBar: public RawComponent {
+    private:
+        string title;
+        string backLabel;
+        bool backButtonVisibility;
     public:
-        UIList();
-        void style(ListStyle style);
-        void spacing(unsigned value);
-        UIList& itemsCount(unsigned value);
-        UIList& builder(ListBuilder _builder);
-        const vector<UIComponent*> build() override;
+        NavigationBar();
+        const string& getTitle() const;
+        const string& getBackLabel() const;
+        void setTitle(const string &title);
+        void setBackLabel(const string &title);
+        void setBackButtonVisibility(const bool value);
+        const string* render() const override;
 };
 
 }

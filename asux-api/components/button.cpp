@@ -23,7 +23,7 @@
 
 using namespace ASUX;
 
-Button::Button(const string& text, Position position): UIComponent(position){
+Button::Button(const string& text, Position position): RawComponent(position){
     this->_padding = {0, 0, 0, 0 };
     this->_size = {5, 5};
     this->_text = text;
@@ -44,15 +44,17 @@ Button& Button::text(const string& text){
     return *this;
 }
 
-void Button::render() const {
+const string* Button::render() const {
+    string component = "";
+
     // Set button color
-    cout << toANSICode(_color);
+    component += toANSICode(_color);
 
     // Degenerate case --> [text]
     if(_padding.top == _padding.bottom == 0){
-        cout << "[" + repeater(' ', _padding.left) + _text + repeater(' ', _padding.right) + "]";
-        cout << toANSICode(Color::Default);
-        return;
+        component += "[" + repeater(' ', _padding.left) + _text + repeater(' ', _padding.right) + "]";
+        component += toANSICode(Color::Default);
+        return new string(component);
     }
 
     // Calculate string piecies
@@ -63,21 +65,19 @@ void Button::render() const {
     string bottomBorder = "└" + repeater("─", width) + "┘";
 
     if(_padding.top > 0){
-        cout << topBorder;
-        cout << repeater(paddingLine, _padding.top - 1);
+        component += topBorder;
+        component += repeater(paddingLine, _padding.top - 1);
     }
 
-    cout << textLine;
+    component += textLine;
 
     if(_padding.bottom > 0){
-        cout << repeater(paddingLine, _padding.bottom - 1);
-        cout << bottomBorder;
+        component += repeater(paddingLine, _padding.bottom - 1);
+        component += bottomBorder;
     }
 
     // Reset color to default
-    cout << RESET_BG_COLOR << flush;
-}
+    component += RESET_BG_COLOR;
 
-const vector<UIComponent*> Button::build(){
-    return {};
+    return new string(component);
 }

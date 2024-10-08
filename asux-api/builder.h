@@ -16,38 +16,19 @@
 * If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef UI_LIST_H
-#define UI_LIST_H
+#ifndef BUILDER_H
+#define BUILDER_H
 
-#include "component.h"
-
-#include <functional>
-#include <vector>
+#include "components/component.h"
 
 namespace ASUX {
 
-enum class ListStyle {
-    None,
-    Enumerated,
-    Bullet,
-    Arrow,
-};
-
-typedef function<UIComponent*(unsigned index)> ListBuilder;
-
-class UIList: public UIComponent {
-    protected:
-        unsigned _itemsCount;
-        ListBuilder _builder;
-        ListStyle _style;
-        unsigned _spacing;
+class Builder {
+    private:
+        vector<UIComponent> tree;
     public:
-        UIList();
-        void style(ListStyle style);
-        void spacing(unsigned value);
-        UIList& itemsCount(unsigned value);
-        UIList& builder(ListBuilder _builder);
-        const vector<UIComponent*> build() override;
+        Builder();
+        static void build(UIComponent *component);
 };
 
 }

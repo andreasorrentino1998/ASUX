@@ -35,9 +35,6 @@ void UIList::spacing(unsigned value){
     this->_spacing = value;
 }
 
-void UIList::render() const {
-}
-
 UIList& UIList::itemsCount(unsigned value){
     this->_itemsCount = value;
     return *this;
@@ -55,9 +52,3 @@ const vector<UIComponent*> UIList::build(){
     }
     return items;
 }
-
-
-/*UIList& UIList::onKey(Key key, function<void(unsigned)> callback){
-    this->itemsActions.insert({key, callback});
-    return *this;
-}*/

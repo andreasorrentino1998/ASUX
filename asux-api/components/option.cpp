@@ -18,10 +18,11 @@
 
 #include "option.h"
 
+#include "../utility/string_util.h"
 #include <iostream>
 #include <iomanip>      // Provides: setw()
 
-Option::Option(const string &title, const string &value, Position position): UIComponent(position){
+Option::Option(const string &title, const string &value, Position position): RawComponent(position){
     this->_title = title;
     this->_value = value;
 }
@@ -54,10 +55,13 @@ Option& Option::value(const string &value){
     return *this;
 }
 
-void Option::render() const {
-    cout << toANSICode(_color) << left << setw(40) << _title << left << setw(35) << "◄ " + _value + " ►" << setw(0) << toANSICode(Color::Default);
-}
+const string* Option::render() const {
+    //cout << toANSICode(_color) << left << setw(40) << _title << left << setw(35) << "◄ " + _value + " ►" << setw(0) << toANSICode(Color::Default);
+    string rightSpace = "";
+    string truncatedTitle  =_title.substr(0, 40);
+    if(_title.length() < 40){
+        rightSpace = repeater(" ", 40 - _title.length());
+    }
 
-const vector<UIComponent*> Option::build(){
-    return {};
+    return new string(toANSICode(_color) + truncatedTitle + rightSpace + "◄ " + _value + " ►" + toANSICode(Color::Default));
 }

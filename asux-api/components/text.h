@@ -19,7 +19,7 @@
 #ifndef TEXT_H
 #define TEXT_H
 
-#include "component.h"
+#include "raw_component.h"
 #include "properties/color.h"
 #include "properties/padding.h"
 
@@ -32,7 +32,7 @@ namespace ASUX {
 
 enum class TextStyle { None, Capitalized, Lowercase, Uppercase };
 
-class Text: public UIComponent {
+class Text: public RawComponent {
     private:
         string _text;
         Color _color;
@@ -48,8 +48,7 @@ class Text: public UIComponent {
         Text& color(Color color);
         Text& backgroundColor(Color color);
         Text& textStyle(TextStyle style);
-        void render() const override;
-        const vector<UIComponent*> build() override;
+        const string* render() const override;
 };
 
 }

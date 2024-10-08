@@ -19,7 +19,7 @@
 #ifndef OPTION_H
 #define OPTION_H
 
-#include "component.h"
+#include "raw_component.h"
 #include "properties/color.h"
 #include <string>
 
@@ -28,7 +28,7 @@ using namespace std;
 
 namespace ASUX {
 
-class Option: public UIComponent {
+class Option: public RawComponent {
     private:
         string _title;
         string _value;
@@ -41,8 +41,7 @@ class Option: public UIComponent {
         Option& color(Color color);
         Option& title(const string &title);
         Option& value(const string &value);
-        void render() const override;
-        const vector<UIComponent*> build() override;
+        const string* render() const override;
 };
 
 }

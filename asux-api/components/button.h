@@ -19,7 +19,7 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include "component.h"
+#include "raw_component.h"
 #include "properties/color.h"
 #include "properties/padding.h"
 
@@ -30,7 +30,7 @@ using namespace std;
 
 namespace ASUX {
 
-class Button: public UIComponent {
+class Button: public RawComponent {
     private:
         string _text;
         Color _color;
@@ -39,8 +39,7 @@ class Button: public UIComponent {
         Color getColor() const;
         Button& color(Color color);
         Button& text(const string& text);
-        void render() const override;
-        const vector<UIComponent*> build() override;
+        const string* render() const override;
 };
 
 }

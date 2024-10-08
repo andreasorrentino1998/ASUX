@@ -19,6 +19,7 @@
 #include "renderer.h"
 
 #include "components/component.h"
+#include "components/view.h"
 #include "components/text.h"
 #include "utility/string_util.h"
 
@@ -33,7 +34,10 @@ void Renderer::render(UIComponent *component){
     const vector<UIComponent*> children = component->build();
     if(children.size() == 0){
         cout << repeater("\n", component->getMarginTop());
-        component->render();
+        if(RawComponent *raw = dynamic_cast<RawComponent*>(component)){
+            cout << *raw->render() << flush;
+        }
+        else component->build();
         cout << repeater("\n", component->getMarginBottom());
         cout << (component->getPosition() == Position::Default ? "\n": "") << flush;
         return;
@@ -42,11 +46,11 @@ void Renderer::render(UIComponent *component){
     for(unsigned i = 0; i < children.size(); i++) render(children[i]);
 
     cout << (component->getPosition() == Position::Default ? "\n": "") << flush;
-    /*if(View* ptr = dynamic_cast<View*>(component); ptr != nullptr){
-        cout << "è di tipo View";
-        
+    
+    if(View* view = dynamic_cast<View*>(component)){
+        //cout << "È di tipo View";
     }
-    else delete component;*/
+    //else delete component;
 
     // Free all children components
     for(UIComponent* child: children) delete child;

@@ -16,37 +16,22 @@
 * If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NAVIGATION_BAR_H
-#define NAVIGATION_BAR_H
+#ifndef RAW_COMPONENT_H
+#define RAW_COMPONENT_H
 
-#include "components/component.h"
-#include "components/properties/color.h"
+#include "component.h"
 #include <string>
-
-// ANSI TEXT FORMATTING ESCAPE SEQUENCES
-#define BOLD_TEXT "\033[1m"
-#define NORMAL_TEXT "\033[22m"
-#define RESET_TEXT "\033[0m"
 
 using namespace ASUX;
 using namespace std;
 
 namespace ASUX {
 
-class NavigationBar: public UIComponent {
-    private:
-        string title;
-        string backLabel;
-        bool backButtonVisibility;
+class RawComponent: public UIComponent {
     public:
-        NavigationBar();
-        const string& getTitle() const;
-        const string& getBackLabel() const;
-        void setTitle(const string &title);
-        void setBackLabel(const string &title);
-        void setBackButtonVisibility(const bool value);
-        virtual void render() const override;
+        RawComponent(Position position = Position::Default);
         const vector<UIComponent*> build() override;
+        virtual const string* render() const = 0;
 };
 
 }
