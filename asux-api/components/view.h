@@ -34,10 +34,11 @@ class View: public UIComponent {
     protected:
         string _title;
         Navigator *navigator;
-        unsigned _x = 0;
-        unsigned _y = 0;
-        unsigned _xMax = 0;
-        unsigned _yMax = 0;
+        unsigned _x;
+        unsigned _y;
+        unsigned _xMax;
+        unsigned _yMax;
+        Color _focusColor;
     public:
         View(unsigned x = 0, unsigned y = 0, unsigned xMax = 0, unsigned yMax = 0);
         virtual ~View(){}
@@ -47,6 +48,9 @@ class View: public UIComponent {
         int getY() const;
         int getMaxX() const;
         int getMaxY() const;
+        
+        UIComponent* getFocusedComponent() const override;
+        Color getFocusColor() const;
 
         void moveCursor(int x, int y);
         void moveCursor(Key key);
@@ -59,6 +63,7 @@ class View: public UIComponent {
         View& y(unsigned value);
         View& xMax(unsigned value);
         View& yMax(unsigned value);
+        View& focusColor(Color color);
 };
 
 }

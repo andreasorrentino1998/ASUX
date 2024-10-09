@@ -17,6 +17,7 @@
 */
 
 #include "builder.h"
+#include "components/view.h"
 #include "components/raw_component.h"
 
 using namespace ASUX;
@@ -26,11 +27,18 @@ void Builder::build(UIComponent *component){
     // Otherwise deallocate its old children and build them again.
     if(RawComponent *raw = dynamic_cast<RawComponent*>(component)) return;
     
-    if(component->children.size() > 0){
-        for(UIComponent* child: component->children) delete child;
+    vector<UIComponent*> children = component->getChildren();
+    if(children.size() > 0){
+        for(UIComponent* child: children) delete child;
     }
     
     // Build its children recursively
-    component->children = component->build();
-    for(unsigned i = 0; i < component->children.size(); i++) build(component->children[i]);
+    component->setChildren(component->build());
+    children = component->getChildren();
+    for(unsigned i = 0; i < children.size(); i++) build(children[i]);
+
+    // If it's a view (root component) set the focus color on the focused element
+    if(View *view = dynamic_cast<View*>(component)){
+        view->getFocusedComponent()->color(view->getFocusColor());
+    }
 }

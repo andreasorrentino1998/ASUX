@@ -19,10 +19,10 @@
 #ifndef COMPONENT_PROPERTIES_H
 #define COMPONENT_PROPERTIES_H
 
-#include "properties/position.h"
-#include "properties/size.h"
-#include "properties/margin.h"
-#include "properties/padding.h"
-#include "properties/color.h"
+#include "position.h"
+#include "size.h"
+#include "margin.h"
+#include "padding.h"
+#include "color.h"
 
 #endif

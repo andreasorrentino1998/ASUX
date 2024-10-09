@@ -34,10 +34,6 @@ const string& Text::getText() const {
     return this->_text;
 }
 
-Color Text::getColor() const {
-    return this->_color;
-}
-
 Color Text::getBackgroundColor() const {
     return this->_backgroundColor;
 }
@@ -48,11 +44,6 @@ TextStyle Text::getTextStyle() const {
 
 Text& Text::text(const string& text){
     this->_text = text;
-    return *this;
-}
-
-Text& Text::color(Color color){
-    this->_color = color;
     return *this;
 }
 

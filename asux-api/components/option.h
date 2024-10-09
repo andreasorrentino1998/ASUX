@@ -32,13 +32,10 @@ class Option: public RawComponent {
     private:
         string _title;
         string _value;
-        Color _color;
     public:
         Option(const string &title = "", const string &value = "", Position position = Position::Default);
         Option(const char *title, const char *value);
         ~Option();
-        Color getColor() const;
-        Option& color(Color color);
         Option& title(const string &title);
         Option& value(const string &value);
         const string* render() const override;

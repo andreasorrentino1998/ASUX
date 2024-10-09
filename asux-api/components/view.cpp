@@ -23,18 +23,15 @@ using namespace ASUX;
 View::View(unsigned x, unsigned y, unsigned xMax, unsigned yMax): UIComponent(Position::Default){
     _this
         .title("")
+        .x(x)
+        .y(y)
         .xMax(xMax)
         .yMax(yMax)
+        .focusColor(Color::Cyan)
         .onKey(Key::Up, &View::moveCursor, this)
         .onKey(Key::Down, &View::moveCursor, this)
         .onKey(Key::Left, &View::moveCursor, this)
         .onKey(Key::Right, &View::moveCursor, this);
-    
-    if(this->_x < xMax) this->_x = x;
-    else this->_x = xMax;
-
-    if(this->_y < yMax) this->_y = y;
-    else this->_y = yMax;
 }
 
 const string& View::getTitle() const {
@@ -57,6 +54,13 @@ int View::getMaxY() const {
     return _yMax;
 }
 
+UIComponent* View::getFocusedComponent() const {
+    return getFocusableElementByIndex(this->_y);
+}
+
+Color View::getFocusColor() const {
+    return this->_focusColor;
+}
 
 void View::setTitle(string &title){
     this->_title = title;
@@ -72,11 +76,13 @@ View& View::title(const string &title){
 }
 
 View& View::x(unsigned value){
-    this->_x = value;
+    if(value < _xMax) this->_x = value;
+    else this->_x = _xMax;
     return *this;
 }
 View& View::y(unsigned value){
-    this->_y = value;
+    if(value < _yMax) this->_y = value;
+    else this->_y = _yMax;
     return *this;
 }
 
@@ -87,6 +93,11 @@ View& View::xMax(unsigned value){
 
 View& View::yMax(unsigned value){
     this->_yMax = value;
+    return *this;
+}
+
+View& View::focusColor(Color color){
+    this->_focusColor = color;
     return *this;
 }
 

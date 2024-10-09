@@ -23,10 +23,7 @@
 #define _this &((*this))
 #define _(T) &((*new T()))
 
-#include "properties/position.h"
-#include "properties/size.h"
-#include "properties/padding.h"
-#include "properties/margin.h"
+#include "properties/properties.h"
 #include "../action.h"
 #include "../key.h"
 
@@ -50,21 +47,26 @@ class UIComponent {
         Size _size;
         Margin _margin;
         Padding _padding;
+        Color _color;
         bool _visibility;
-        
-    public:
+        bool _focusable;
         vector<UIComponent*> children;
         multimap<Key, Action*> actions;
-
+    public:
         UIComponent(Position position = Position::Default);
         virtual ~UIComponent(){};  // Required for using it as an item in <vector>.
         
+        virtual const vector<UIComponent*>& getChildren() const;
+        virtual const multimap<Key, Action*>& getActions() const;
         virtual bool getVisibility() const;
         virtual const Position& getPosition() const;
-
+        virtual bool isFocusable() const;
         virtual const Size& getSize() const;
         virtual unsigned getWidth() const;
         virtual unsigned getHeight() const;
+        virtual UIComponent* getFocusedComponent() const;
+        virtual UIComponent* getFocusableElementByIndex(int index) const;
+        virtual int getNumberOfFocusableComponents() const;
 
         virtual const Padding& getPadding() const;
         virtual unsigned getPaddingTop() const;
@@ -77,6 +79,10 @@ class UIComponent {
         virtual unsigned getMarginBottom() const;
         virtual unsigned getMarginLeft() const;
         virtual unsigned getMarginRight() const;
+
+        virtual Color getColor() const;
+
+        virtual void setChildren(const vector<UIComponent*> children);
 
         virtual UIComponent& visibility(bool value);
         virtual UIComponent& position(Position position);
@@ -98,6 +104,9 @@ class UIComponent {
         virtual UIComponent& marginBottom(unsigned value);
         virtual UIComponent& marginLeft(unsigned value);
         virtual UIComponent& marginRight(unsigned value);
+        
+        virtual UIComponent& color(Color color);
+        virtual UIComponent& focusable(bool value);
 
         virtual const vector<UIComponent*> build() = 0;
 

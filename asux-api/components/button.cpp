@@ -30,15 +30,6 @@ Button::Button(const string& text, Position position): RawComponent(position){
     this->_color = Color::Default;
 }
 
-Color Button::getColor() const {
-    return this->_color;
-}
-
-Button& Button::color(Color color){
-    this->_color = color;
-    return *this;
-}
-
 Button& Button::text(const string& text){
     this->_text = text;
     return *this;

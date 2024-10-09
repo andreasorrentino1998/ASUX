@@ -33,11 +33,8 @@ namespace ASUX {
 class Button: public RawComponent {
     private:
         string _text;
-        Color _color;
     public:
         Button(const string& text = "Button", Position position = Position::Default);
-        Color getColor() const;
-        Button& color(Color color);
         Button& text(const string& text);
         const string* render() const override;
 };

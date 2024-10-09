@@ -3,19 +3,17 @@
 
 using namespace ASUX;
 
-UIComponent* Input::triggerActions(UIComponent *component, Key key){
-    // Ontop dirty component
-    UIComponent *dirtyComponent = nullptr;
+UIComponent* Input::triggerActions(const UIComponent *component, Key key){
+    UIComponent *dirtyComponent = nullptr;          // On-top dirty component
+    UIComponent *triggerComponent = nullptr;        // The component which triggered the action
 
-    // Trigger actions on the component children
-    const vector<UIComponent*> children = component->children;
-    for(unsigned i = 0; i < children.size(); i++){
-        UIComponent *triggerComponent = triggerActions(children[i], key);
-        if(triggerComponent != nullptr) dirtyComponent = triggerComponent;
-    }
+    // Trigger actions defined on the focused component child
+    const UIComponent* child = component->getFocusedComponent();
+    if(child != nullptr) triggerComponent = triggerActions(child, key);
+    if(triggerComponent != nullptr) dirtyComponent = triggerComponent;
 
-    // Trigger action on the current component
-    auto range = component->actions.equal_range(key);
+    // Trigger actions defined on the current component
+    auto range = component->getActions().equal_range(key);
     for(auto it = range.first; it != range.second; it++){
         (*it->second)(key);
         dirtyComponent = (*it->second).getInstance();

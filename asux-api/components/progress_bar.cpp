@@ -28,17 +28,8 @@ ProgressBar::ProgressBar(unsigned width, unsigned height, Position position): Ra
     this->_progress = 0;
 }
 
-Color ProgressBar::getColor() const {
-    return this->_color;
-}
-
 unsigned ProgressBar::getProgress() const {
     return this->_progress;
-}
-
-ProgressBar& ProgressBar::color(Color color){
-    this->_color = color;
-    return *this;
 }
 
 ProgressBar& ProgressBar::progress(unsigned value){

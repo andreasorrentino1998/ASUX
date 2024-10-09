@@ -35,17 +35,14 @@ enum class TextStyle { None, Capitalized, Lowercase, Uppercase };
 class Text: public RawComponent {
     private:
         string _text;
-        Color _color;
         Color _backgroundColor;
         TextStyle _textStyle;
     public:
         Text(const string& text = "", Position position = Position::Default);
         const string& getText() const;
-        Color getColor() const;
         Color getBackgroundColor() const;
         TextStyle getTextStyle() const;
         Text& text(const string& text);
-        Text& color(Color color);
         Text& backgroundColor(Color color);
         Text& textStyle(TextStyle style);
         const string* render() const override;

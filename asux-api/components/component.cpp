@@ -24,13 +24,27 @@ UIComponent::UIComponent(Position position){
     this->_position = position;
     this->_padding = {0, 0, 0, 0};
     this->_margin = {0, 0, 0, 0};
+    this->_color = Color::Default;
     this->_visibility = true;
+    this->_focusable = false;
     this->children = vector<UIComponent*>();
     this->actions = multimap<Key, Action*>();
 }
 
+const vector<UIComponent*>& UIComponent::getChildren() const {
+    return this->children;
+}
+
+const multimap<Key, Action*>& UIComponent::getActions() const {
+    return this->actions;
+}
+
 bool UIComponent::getVisibility() const {
     return this->_visibility;
+}
+
+bool UIComponent::isFocusable() const {
+    return this->_focusable;
 }
 
 const Position& UIComponent::getPosition() const {
@@ -87,6 +101,14 @@ unsigned UIComponent::getPaddingLeft() const {
 
 unsigned UIComponent::getPaddingRight() const {
     return this->_padding.right;
+}
+
+Color UIComponent::getColor() const {
+    return this->_color;
+}
+
+void UIComponent::setChildren(const vector<UIComponent*> children){
+    this->children = children;
 }
 
 UIComponent& UIComponent::visibility(bool value){
@@ -174,8 +196,43 @@ UIComponent& UIComponent::marginRight(unsigned value){
     return *this;
 }
 
-/*template <typename T>
-UIComponent& UIComponent::onKey(Key key, void (T::*func)(Key), T* instance){
-    actions.insert({key, new ComponentAction<T>(instance, func)});
+UIComponent& UIComponent::color(Color color){
+    this->_color = color;
     return *this;
-}*/
+}
+
+UIComponent& UIComponent::focusable(bool value){
+    this->_focusable = value;
+    return *this;
+}
+
+UIComponent* UIComponent::getFocusedComponent() const {
+    return nullptr;
+}
+
+UIComponent* UIComponent::getFocusableElementByIndex(int index) const {
+    int i = -1;
+
+    for(UIComponent* child: this->children){
+        if(child->isFocusable()) i++;
+        if(i == index) return child;
+
+        // Check if it has focusable child too
+        UIComponent *component = child->getFocusableElementByIndex(index - (i + 1));
+        if(component != nullptr) return component;
+        else {
+            i += child->getNumberOfFocusableComponents();
+        }
+    }
+
+    return nullptr;
+}
+
+int UIComponent::getNumberOfFocusableComponents() const {
+    int focusableComponents = 0;
+    for(UIComponent *child: this->children){
+        if(child->isFocusable()) focusableComponents++;
+        focusableComponents += child->getNumberOfFocusableComponents();
+    }
+    return focusableComponents;
+}

@@ -28,12 +28,9 @@ class ProgressBar: public RawComponent {
     private:
         unsigned _progress;
         bool showPercentage;
-        Color _color;
     public:
         ProgressBar(unsigned width = 5, unsigned height = 1, Position position = Position::Default);
-        Color getColor() const;
         unsigned getProgress() const;
-        ProgressBar& color(Color color);
         ProgressBar& progress(unsigned value);
         void increaseProgress(unsigned value);
         void decreaseProgress(unsigned value);

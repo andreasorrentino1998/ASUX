@@ -10,7 +10,7 @@ namespace ASUX {
 namespace Input {
 
     Key getInputKey();
-    UIComponent* triggerActions(UIComponent *component, Key key);
+    UIComponent* triggerActions(const UIComponent *component, Key key);
 
 }
 

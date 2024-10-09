@@ -36,15 +36,6 @@ Option::Option(const char *title, const char *value){
     this->_value = value;
 }
 
-Color Option::getColor() const {
-    return this->_color;
-}
-
-Option& Option::color(Color color){
-    this->_color = color;
-    return *this;
-}
-
 Option& Option::title(const string &title){
     this->_title = title;
     return *this;

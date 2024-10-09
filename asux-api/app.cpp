@@ -75,7 +75,7 @@ void App::runLoop(){
         }
 
         // Get the keyboard input from user
-        Key key = ASUX::Input::getInputKey();
+        Key key = Input::getInputKey();
         
         // App navigation logic
         switch(key){
@@ -92,7 +92,7 @@ void App::runLoop(){
         }
 
         // In our model we made the assumption "action -> model change".
-        // Thus, if we has triggered an action on a component, we need to rebuild it
+        // Thus, if a component has triggered an action, we need to rebuild it
         // along with its children and doing a new rendering of the component tree.
         if(dirtyComponent != nullptr) modelChanged = true;
     } while(true);

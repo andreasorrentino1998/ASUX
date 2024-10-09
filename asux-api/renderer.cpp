@@ -35,7 +35,7 @@ void Renderer::render(UIComponent *component){
     if(!component->getVisibility()) return;
 
     // Render the component
-    if(component->children.size() == 0){
+    if(component->getChildren().size() == 0){
         cout << repeater("\n", component->getMarginTop());
         if(RawComponent *raw = dynamic_cast<RawComponent*>(component)){
             cout << *raw->render() << flush;
@@ -46,7 +46,8 @@ void Renderer::render(UIComponent *component){
     }
 
     // Render the component children
-    for(unsigned i = 0; i < component->children.size(); i++) render(component->children[i]);
+    const vector<UIComponent*> children = component->getChildren();
+    for(unsigned i = 0; i < children.size(); i++) render(children[i]);
 
     cout << (component->getPosition() == Position::Default ? "\n": "") << flush;
 }
