@@ -31,6 +31,6 @@ void Builder::build(UIComponent *component){
     }
     
     // Build its children recursively
-     component->children = component->build();
+    component->children = component->build();
     for(unsigned i = 0; i < component->children.size(); i++) build(component->children[i]);
 }

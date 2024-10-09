@@ -8,14 +8,17 @@ UIComponent* Input::triggerActions(UIComponent *component, Key key){
     UIComponent *dirtyComponent = nullptr;
 
     // Trigger actions on the component children
-    const vector<UIComponent*> children = component->build();
-    for(unsigned i = 0; i < children.size(); i++) dirtyComponent = triggerActions(children[i], key);
+    const vector<UIComponent*> children = component->children;
+    for(unsigned i = 0; i < children.size(); i++){
+        UIComponent *triggerComponent = triggerActions(children[i], key);
+        if(triggerComponent != nullptr) dirtyComponent = triggerComponent;
+    }
 
     // Trigger action on the current component
     auto range = component->actions.equal_range(key);
     for(auto it = range.first; it != range.second; it++){
         (*it->second)(key);
-        dirtyComponent = component;
+        dirtyComponent = (*it->second).getInstance();
     }
 
     return dirtyComponent;

@@ -67,7 +67,6 @@ void App::runLoop(){
         if(dirtyComponent != nullptr) Builder::build(dirtyComponent);
 
         // Render the updated UI if the model has changed
-        // TODO: detect when the model changes in order to avoid redrawing the same content again.
         if(modelChanged){
             Terminal::clear();
             if(navigator->navigationBarShouldBeRendered()) Renderer::render(&navigationBar);

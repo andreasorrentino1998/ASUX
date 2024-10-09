@@ -28,6 +28,7 @@
 #include "properties/padding.h"
 #include "properties/margin.h"
 #include "../action.h"
+#include "../key.h"
 
 #include <vector>
 #include <functional>
@@ -36,6 +37,12 @@
 using namespace std;
 
 namespace ASUX {
+
+// Forward declaration
+class Action;
+
+template <typename T>
+class ComponentAction;
 
 class UIComponent {
     protected:
@@ -92,12 +99,13 @@ class UIComponent {
         virtual UIComponent& marginLeft(unsigned value);
         virtual UIComponent& marginRight(unsigned value);
 
+        virtual const vector<UIComponent*> build() = 0;
+
         template <typename T>
         UIComponent& onKey(Key key, void (T::*func)(Key), T* instance){
-            actions.insert({key, new MemberAction<T>(instance, func)});
+            actions.insert({key, new ComponentAction<T>(instance, func)});
             return *this;
         }
-        virtual const vector<UIComponent*> build() = 0;
 };
 
 }

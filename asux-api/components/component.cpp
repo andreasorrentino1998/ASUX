@@ -173,3 +173,9 @@ UIComponent& UIComponent::marginRight(unsigned value){
     this->_margin.right = value;
     return *this;
 }
+
+/*template <typename T>
+UIComponent& UIComponent::onKey(Key key, void (T::*func)(Key), T* instance){
+    actions.insert({key, new ComponentAction<T>(instance, func)});
+    return *this;
+}*/

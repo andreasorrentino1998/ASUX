@@ -27,8 +27,7 @@ using namespace std;
 
 namespace ASUX {
 
-// Forward declaration (to solve circular-dependency)
-// TODO: Think of a better software design to solve that.
+// Forward declaration
 class Navigator;
 
 class View: public UIComponent {

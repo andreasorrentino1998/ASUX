@@ -19,37 +19,35 @@
 #ifndef ACTION_H
 #define ACTION_H
 
+#include "components/component.h"
 #include "key.h"
 
 namespace ASUX {
 
+// Forward declaration
+class UIComponent;
+
 class Action {
     public:
         virtual ~Action() = default;
+        virtual UIComponent* getInstance() = 0;
         virtual void operator()(Key key) = 0;
 };
 
 template <typename T>
-class MemberAction : public Action {
-    public:
-        using FuncT = void (T::*)(Key key);
-
-        MemberAction(T* instance, FuncT func){
-            this->instance = instance;
-            this->func = func;
-        };
-
-        T* getInstance(){
-            return instance;
-        }
-
-        void operator()(Key key) override {
-            (instance->*func)(key);
-        }
-
+class ComponentAction: public Action {
     private:
+        using FuncT = void (T::*)(Key key);
         T* instance;
         FuncT func;
+    public:
+        ComponentAction(T* instance, FuncT func){
+            this->instance = instance;
+            this->func = func;
+        }
+
+        UIComponent* getInstance(){ return static_cast<UIComponent*>(this->instance); }
+        void operator()(Key key){ (instance->*func)(key); }
 };
 
 }
