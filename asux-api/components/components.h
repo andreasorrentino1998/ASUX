@@ -20,11 +20,11 @@
 #define COMPONENTS_H
 
 #include "component.h"
-#include "components/view.h"
-#include "components/list.h"
-#include "components/text.h"
-#include "components/button.h"
-#include "components/progress_bar.h"
-#include "components/option.h"
+#include "view.h"
+#include "list.h"
+#include "text.h"
+#include "button.h"
+#include "progress_bar.h"
+#include "option.h"
 
 #endif
