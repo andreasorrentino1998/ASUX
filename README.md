@@ -28,14 +28,13 @@ asux-app/
 ## Install ASUX
 Download and install the `asux` tool:
 ```sh
-curl -o asux https://raw.githubusercontent.com/andreasorrentino1998/ASUX/refs/heads/main/tools/asux.sh
-mv asux /usr/local/bin && chmod +x /usr/local/bin/asux
+curl -o asux https://raw.githubusercontent.com/andreasorrentino1998/ASUX/refs/heads/main/tools/asux.sh && mv asux /usr/local/bin && chmod +x /usr/local/bin/asux
 ```
 
 Reload your shell configuration:
 ```sh
-source ~/.bashrc    # For bash shell
-source ~/.zshrc     # For zshrc shell
+source ~/.bashrc    # For bash
+source ~/.zshrc     # For zsh
 ```
 
 Once you have the ```asux``` tool installed, you can install the framework API:
