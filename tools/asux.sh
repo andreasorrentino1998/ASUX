@@ -81,7 +81,7 @@ create_project(){
     rm -rf .git
 
     # Move "app-template" content to the root directory
-    cd asux-template/app-template
+    cd asux-templates/app-template
     mv * ../..
     cd ../..
     rm -rf asux-template
@@ -89,7 +89,7 @@ create_project(){
 
 create_view(){
     cd views
-    curl -o "${1}_view.h" https://raw.githubusercontent.com/andreasorrentino1998/ASUX/main/asux-template/view.h
+    curl -o "${1}_view.h" https://raw.githubusercontent.com/andreasorrentino1998/ASUX/main/asux-templates/view.h
     
     uppercaseName=$(to_Uppercase "$1")
     capitalizedName=$(to_Capitalized "$1")
@@ -102,7 +102,7 @@ create_view(){
 }
 
 create_component(){
-    curl -o $1".h" https://raw.githubusercontent.com/andreasorrentino1998/ASUX/main/asux-template/component.h
+    curl -o $1".h" https://raw.githubusercontent.com/andreasorrentino1998/ASUX/main/asux-templates/component.h
 
     uppercaseName=$(to_Uppercase "$1")
     capitalizedName=$(to_Capitalized "$1")
@@ -114,7 +114,7 @@ create_component(){
 
 
 create_class(){
-    curl -o $1".h" https://raw.githubusercontent.com/andreasorrentino1998/ASUX/main/asux-template/class.h
+    curl -o $1".h" https://raw.githubusercontent.com/andreasorrentino1998/ASUX/main/asux-templates/class.h
 
     uppercaseName=$(to_Uppercase "$1")
     capitalizedName=$(to_Capitalized "$1")
@@ -126,7 +126,7 @@ create_class(){
 
 
 create_struct(){
-    curl -o $1".h" https://raw.githubusercontent.com/andreasorrentino1998/ASUX/main/asux-template/struct.h
+    curl -o $1".h" https://raw.githubusercontent.com/andreasorrentino1998/ASUX/main/asux-templates/struct.h
 
     uppercaseName=$(to_Uppercase "$1")
     capitalizedName=$(to_Capitalized "$1")
@@ -137,7 +137,7 @@ create_struct(){
 }
 
 create_enum(){
-    curl -o $1".h" https://raw.githubusercontent.com/andreasorrentino1998/ASUX/main/asux-template/enum.h
+    curl -o $1".h" https://raw.githubusercontent.com/andreasorrentino1998/ASUX/main/asux-templates/enum.h
 
     uppercaseName=$(to_Uppercase "$1")
     capitalizedName=$(to_Capitalized "$1")

@@ -16,12 +16,17 @@ asux-app/
 │   ├── main_view.h
 │   ├── ...
 │
+├── models/
+│   ├── my_model.h
+│   ├── ...
+│
 ├── main.cpp
 └── makefile
 ```
 
 - :file_folder: **components**: Contains your custom components, the building blocks for the UI.
 - :file_folder: **views**: Contains the views, which represent the pages of your applications.
+- :file_folder: **models**: Contains the models, which can be used by your components.
 - :page_facing_up: **main.cpp**: The entry point of the C++ program where an ASUX app instance is created.
 - :page_facing_up: **makefile**: To build the app.
 

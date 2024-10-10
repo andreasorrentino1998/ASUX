@@ -8,3 +8,4 @@ asux-api/.DS_Store
 # Output
 asux-api/bin/*
 app-template/bin/*
+asux-examples/*/bin/*
