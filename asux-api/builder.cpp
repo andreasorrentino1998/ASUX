@@ -39,6 +39,7 @@ void Builder::build(UIComponent *component){
 
     // If it's a view (root component) set the focus color on the focused element
     if(View *view = dynamic_cast<View*>(component)){
-        view->getFocusedComponent()->color(view->getFocusColor());
+        UIComponent *focusedComponent = view->getFocusedComponent();
+        if(focusedComponent != nullptr) focusedComponent->color(view->getFocusColor());
     }
 }

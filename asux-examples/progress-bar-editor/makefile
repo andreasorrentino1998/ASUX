@@ -44,6 +44,7 @@ all: CREATE_OUTPUT_DIRS $(MAIN_EXE)
 CREATE_OUTPUT_DIRS:
 	mkdir -p $(TARGET_DIR)
 	mkdir -p $(TARGET_DIR)/obj/
+	mkdir -p $(TARGET_DIR)/obj/models
 	mkdir -p $(TARGET_DIR)/obj/components
 	mkdir -p $(TARGET_DIR)/obj/views
 
