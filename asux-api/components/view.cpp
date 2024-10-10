@@ -20,9 +20,9 @@
 
 using namespace ASUX;
 
-View::View(unsigned x, unsigned y, unsigned xMax, unsigned yMax): UIComponent(Position::Default){
+View::View(const string &title, unsigned x, unsigned y, unsigned xMax, unsigned yMax): UIComponent(Position::Default){
     _this
-        .title("")
+        .title(title)
         .x(x)
         .y(y)
         .xMax(xMax)

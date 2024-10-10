@@ -41,6 +41,12 @@ class Action;
 template <typename T>
 class ComponentAction;
 
+typedef struct {
+    unsigned index;
+    function<void(unsigned)> func;
+    UIComponent *instance;
+} IndexedAction;
+
 class UIComponent {
     protected:
         Position _position;
@@ -54,12 +60,14 @@ class UIComponent {
         bool focused;
         vector<UIComponent*> children;
         multimap<Key, Action*> actions;
+        multimap<Key, IndexedAction*> indexedActions;
     public:
         UIComponent(Position position = Position::Default);
         virtual ~UIComponent(){};  // Required for using it as an item in <vector>.
         
         virtual const vector<UIComponent*>& getChildren() const;
         virtual const multimap<Key, Action*>& getActions() const;
+        virtual const multimap<Key, IndexedAction*>& getIndexedActions() const { return this->indexedActions; }
         virtual bool getVisibility() const;
         virtual const Position& getPosition() const;
         virtual const Size& getSize() const;
@@ -122,6 +130,13 @@ class UIComponent {
             actions.insert({key, new ComponentAction<T>(instance, func)});
             return *this;
         }
+
+        template <typename T>
+        UIComponent& onKey(Key key, function<void(unsigned)> func, unsigned index, T* instance){
+            indexedActions.insert({key, new IndexedAction{index, func, static_cast<UIComponent*>(instance)}});
+            return *this;
+        }
+        
 };
 
 }

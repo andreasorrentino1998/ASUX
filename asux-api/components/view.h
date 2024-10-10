@@ -23,6 +23,18 @@
 #include "../navigator.h"
 #include <string>
 
+// Macro to simplify declarative syntax for navigation and routing
+#define NAVIGATION_ROUTES vector<function<View*()>> routes
+
+#define ROUTE(index, ViewTypeConstructor)\
+        [](){ return new ViewTypeConstructor;}
+
+#define _navigateTo(ViewTypeConstructor)\
+        [&](unsigned i){ this->navigator->navigateTo(new ViewTypeConstructor); }
+
+#define navigateToRoute(index)\
+        [&](unsigned i){ if(index < routes.size()) this->navigator->navigateTo(routes[index]()); }, index, this
+
 using namespace std;
 
 namespace ASUX {
@@ -40,7 +52,7 @@ class View: public UIComponent {
         unsigned _yMax;
         Color _focusColor;
     public:
-        View(unsigned x = 0, unsigned y = 0, unsigned xMax = 0, unsigned yMax = 0);
+        View(const string &title = "", unsigned x = 0, unsigned y = 0, unsigned xMax = 0, unsigned yMax = 0);
         virtual ~View(){}
         
         const string& getTitle() const;
