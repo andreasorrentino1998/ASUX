@@ -27,6 +27,8 @@ UIComponent::UIComponent(Position position){
     this->_color = Color::Default;
     this->_visibility = true;
     this->_focusable = false;
+    this->focused = false;
+    this->_showCursor = false;
     this->children = vector<UIComponent*>();
     this->actions = multimap<Key, Action*>();
 }
@@ -45,6 +47,10 @@ bool UIComponent::getVisibility() const {
 
 bool UIComponent::isFocusable() const {
     return this->_focusable;
+}
+
+bool  UIComponent::isFocused() const {
+    return this->focused;
 }
 
 const Position& UIComponent::getPosition() const {
@@ -105,6 +111,10 @@ unsigned UIComponent::getPaddingRight() const {
 
 Color UIComponent::getColor() const {
     return this->_color;
+}
+
+bool UIComponent::shouldShowCursor() const {
+    return this->_showCursor;
 }
 
 void UIComponent::setChildren(const vector<UIComponent*> children){
@@ -198,6 +208,16 @@ UIComponent& UIComponent::marginRight(unsigned value){
 
 UIComponent& UIComponent::color(Color color){
     this->_color = color;
+    return *this;
+}
+
+UIComponent& UIComponent::showCursor(bool value){
+    this->_showCursor = value;
+    return *this;
+}
+
+UIComponent& UIComponent::focus(bool value){
+    this->focused = value;
     return *this;
 }
 

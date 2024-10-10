@@ -63,13 +63,13 @@ const string* Text::render() const {
     // Set text color and background color
     component += toANSICode(_color, _backgroundColor);
 
-    string paddingLine = repeater(" ", _padding.left + _text.length() + _padding.right) + "\n";
-    string textLine = repeater(" ", _padding.left) + _text + repeater(" ", _padding.right) + "\n";
+    string paddingLine = repeater(" ", _padding.left + _text.length() + _padding.right);
+    string textLine = repeater(" ", _padding.left) + _text + repeater(" ", _padding.right);
     
     // Render
-    component += repeater(paddingLine, _padding.top);
+    component += repeater(paddingLine + "\n", _padding.top);
     component += textLine;
-    component += repeater(paddingLine, _padding.bottom);
+    component += repeater("\n" + paddingLine, _padding.bottom);
 
     // Reset color to default
     component += RESET_BG_COLOR;

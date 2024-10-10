@@ -37,9 +37,16 @@ void Builder::build(UIComponent *component){
     children = component->getChildren();
     for(unsigned i = 0; i < children.size(); i++) build(children[i]);
 
-    // If it's a view (root component) set the focus color on the focused element
+    // If it's a view (root component) get the new focused component
+    // And set its focus property to true.
     if(View *view = dynamic_cast<View*>(component)){
+        int focusableElements = view->getNumberOfFocusableComponents();
+        view->yMax(focusableElements - 1);
+        
         UIComponent *focusedComponent = view->getFocusedComponent();
-        if(focusedComponent != nullptr) focusedComponent->color(view->getFocusColor());
+        if(focusedComponent != nullptr){
+            focusedComponent->focus(true);
+            focusedComponent->color(view->getFocusColor());
+        }
     }
 }

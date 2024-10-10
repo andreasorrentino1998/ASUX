@@ -40,7 +40,6 @@ class MainView: public View {
     public:
         MainView(){
             _this
-                .yMax(5)
                 .title("PROGRESS BAR EDITOR")
                 .onKey(Key::Left, &MainView::changeOptionValue, this)
                 .onKey(Key::Right, &MainView::changeOptionValue, this);

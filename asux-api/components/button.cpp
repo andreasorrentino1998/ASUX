@@ -50,21 +50,21 @@ const string* Button::render() const {
 
     // Calculate string piecies
     unsigned width = _padding.left + _text.length() + _padding.right;
-    string topBorder = "┌" + repeater("─", width) + "┐\n";
-    string paddingLine = "│" + repeater(' ', width) + "│\n";
-    string textLine = "│" + repeater(' ', _padding.left) + _text + repeater(' ', _padding.right) + "│\n";
+    string topBorder = "┌" + repeater("─", width) + "┐";
+    string paddingLine = "│" + repeater(' ', width) + "│";
+    string textLine = "│" + repeater(' ', _padding.left) + _text + repeater(' ', _padding.right) + "│";
     string bottomBorder = "└" + repeater("─", width) + "┘";
 
     if(_padding.top > 0){
-        component += topBorder;
-        component += repeater(paddingLine, _padding.top - 1);
+        component += topBorder + "\n";
+        component += repeater(paddingLine + "\n", _padding.top - 1);
     }
 
     component += textLine;
 
     if(_padding.bottom > 0){
-        component += repeater(paddingLine, _padding.bottom - 1);
-        component += bottomBorder;
+        component += repeater("\n" + paddingLine, _padding.bottom - 1);
+        component += "\n" + bottomBorder;
     }
 
     // Reset color to default

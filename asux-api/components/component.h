@@ -50,6 +50,8 @@ class UIComponent {
         Color _color;
         bool _visibility;
         bool _focusable;
+        bool _showCursor;
+        bool focused;
         vector<UIComponent*> children;
         multimap<Key, Action*> actions;
     public:
@@ -60,10 +62,11 @@ class UIComponent {
         virtual const multimap<Key, Action*>& getActions() const;
         virtual bool getVisibility() const;
         virtual const Position& getPosition() const;
-        virtual bool isFocusable() const;
         virtual const Size& getSize() const;
         virtual unsigned getWidth() const;
         virtual unsigned getHeight() const;
+        virtual bool isFocusable() const;
+        virtual bool isFocused() const;
         virtual UIComponent* getFocusedComponent() const;
         virtual UIComponent* getFocusableElementByIndex(int index) const;
         virtual int getNumberOfFocusableComponents() const;
@@ -82,6 +85,8 @@ class UIComponent {
 
         virtual Color getColor() const;
 
+        virtual bool shouldShowCursor() const;
+        
         virtual void setChildren(const vector<UIComponent*> children);
 
         virtual UIComponent& visibility(bool value);
@@ -106,7 +111,9 @@ class UIComponent {
         virtual UIComponent& marginRight(unsigned value);
         
         virtual UIComponent& color(Color color);
+        virtual UIComponent& focus(bool value);
         virtual UIComponent& focusable(bool value);
+        virtual UIComponent& showCursor(bool value);
 
         virtual const vector<UIComponent*> build() = 0;
 
