@@ -84,7 +84,8 @@ create_project(){
     cd asux-templates/app-template
     mv * ../..
     cd ../..
-    rm -rf asux-template
+    rm -rf asux-templates
+    rm -rf asux-examples
 }
 
 create_view(){
