@@ -41,16 +41,39 @@ to_Capitalized(){
 
 # Install ASUX framework
 install_ASUX(){
-    git clone https://github.com/andreasorrentino1998/ASUX/
+    # Save the current working directory
     working_dir=$(pwd)
+
+    # Download the ASUX API from the git repository
+    git clone https://github.com/andreasorrentino1998/ASUX/
+
+    # Compile the ASUX API
     cd ASUX/asux-api
     make
+    
+    # Copy the static library
     cd bin
     mkdir /usr/local/lib/ASUX-1.0/
     mv libASUX.a /usr/local/lib/ASUX-1.0/
     cd ..
+
+    # Copy headers from root directory
     mkdir /usr/local/include/ASUX/
     mv *.h /usr/local/include/ASUX/
+
+    # Find all the project subdirectories, excluding "./bin"
+    directories=($(find . -type d -name bin -prune -o -type d -print))
+
+    # Copy headers from subdirectories
+    for dir in "${directories[@]}"; do        
+        if [[ $dir != "." ]]; then  # Exclude "./" directory
+            cleaned_dir="${dir//.\//}"
+            mkdir "/usr/local/include/ASUX/${cleaned_dir}/"
+            cp $cleaned_dir/*.h /usr/local/include/ASUX/$cleaned_dir/
+        fi
+    done
+    
+    # Restore the working directory and remove installation files
     cd $working_dir
     rm -rf ASUX
 }
