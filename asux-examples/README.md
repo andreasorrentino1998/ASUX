@@ -1,0 +1,2 @@
+# ASUX Example Projects
+In this folder, you'll find several example projects demonstrating different features and use cases of the ASUX framework. Whether you're new to ASUX or looking to explore its full potential, these projects serve as practical references, giving you a clear starting point to understand how to use and integrate ASUX into your own applications. Feel free to experiment with the code, adapt it to your workflows, and use it as a foundation for your own applications powered by ASUX.
