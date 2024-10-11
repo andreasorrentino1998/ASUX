@@ -43,17 +43,27 @@ typedef function<const vector<UIComponent*>(unsigned index)> ListBuilder;
 
 class List: public UIComponent {
     protected:
+        unsigned y;
         unsigned _itemsCount;
+        unsigned _itemsToDisplay;
+        bool _scrollable;
         ListBuilder itemBuilder;
         ListStyle _style;
         unsigned _spacing;
+        void buildItemAndAddToList(unsigned index, vector<UIComponent*> &itemsList);
     public:
         List();
         void style(ListStyle style);
         void spacing(unsigned value);
-        List& itemsCount(unsigned value);
+        List& scrollable(bool value);
+        List& itemsCount(unsigned number);
+        List& itemsToDisplay(unsigned number);
+        List& startIndex(unsigned index);
         List& builder(ListBuilder itemBuilder);
         const vector<UIComponent*> build() override;
+
+        int getNumberOfFocusableComponents() const override;
+        UIComponent* getFocusableElementByIndex(int index) const override;
 };
 
 }
