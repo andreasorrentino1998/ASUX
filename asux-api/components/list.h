@@ -24,6 +24,12 @@
 #include <functional>
 #include <vector>
 
+// Macro to simply declarative syntax
+#define _builder(...) \
+    .builder([&](unsigned i) -> const std::vector<UIComponent*> \
+        { return { __VA_ARGS__ }; } \
+    )
+
 namespace ASUX {
 
 enum class ListStyle {
@@ -33,20 +39,20 @@ enum class ListStyle {
     Arrow,
 };
 
-typedef function<UIComponent*(unsigned index)> ListBuilder;
+typedef function<const vector<UIComponent*>(unsigned index)> ListBuilder;
 
-class UIList: public UIComponent {
+class List: public UIComponent {
     protected:
         unsigned _itemsCount;
-        ListBuilder _builder;
+        ListBuilder itemBuilder;
         ListStyle _style;
         unsigned _spacing;
     public:
-        UIList();
+        List();
         void style(ListStyle style);
         void spacing(unsigned value);
-        UIList& itemsCount(unsigned value);
-        UIList& builder(ListBuilder _builder);
+        List& itemsCount(unsigned value);
+        List& builder(ListBuilder itemBuilder);
         const vector<UIComponent*> build() override;
 };
 

@@ -81,15 +81,15 @@ class MainView: public View {
             return {
                 _(Text)
                     .text("Edit the progress bar parameters."),
-                _(UIList)
+                _(List)
                     .itemsCount(5)
-                    .builder([&](unsigned i){
-                    return _(Option)
+                    _builder(
+                    _(Option)
                         .title(optionLabels[i])
                         .value(getOptionValueString(i))
                         .focusable(true)
-                        .onKey(Key::I, &MainView::showHideOptionInfo, this);
-                    }),
+                        .onKey(Key::I, &MainView::showHideOptionInfo, this)
+                    ),
                 _(ProgressBar)
                     .progress(model.progress)
                     .percentageVisibility(model.showPercentage)

@@ -20,35 +20,37 @@
 
 using namespace ASUX;
 
-UIList::UIList(){
+List::List(){
     this->_itemsCount = 0;
     this->_style = ListStyle::Arrow;
     this->_spacing = 0;
-    this->_builder = nullptr;
+    this->itemBuilder = nullptr;
 }
 
-void UIList::style(ListStyle style){
+void List::style(ListStyle style){
     this->_style = style;
 }
 
-void UIList::spacing(unsigned value){
+void List::spacing(unsigned value){
     this->_spacing = value;
 }
 
-UIList& UIList::itemsCount(unsigned value){
+List& List::itemsCount(unsigned value){
     this->_itemsCount = value;
     return *this;
 }
 
-UIList& UIList::builder(ListBuilder _builder){
-    this->_builder = _builder;
+List& List::builder(ListBuilder itemBuilder){
+    this->itemBuilder = itemBuilder;
     return *this;
 }
 
-const vector<UIComponent*> UIList::build(){
+const vector<UIComponent*> List::build(){
     vector<UIComponent*> items;
     for(unsigned i = 0; i < _itemsCount; i++){
-        items.push_back(_builder(i));
+        const vector<UIComponent*> itemChildren = this->itemBuilder(i);
+        size_t childrenCount = itemChildren.size();
+        for(unsigned j = 0; j < childrenCount; j++) items.push_back(itemChildren[j]);
     }
     return items;
 }
