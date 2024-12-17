@@ -87,6 +87,8 @@ void App::runLoop(){
                 exit(0);
                 break;
             case Key::Backspace:
+                // TODO: handle better the backspace behavior on textbox
+                dirtyComponent = Input::triggerActions(view, key);
                 navigator->navigateBack();
                 break;
             default:

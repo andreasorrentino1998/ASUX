@@ -23,8 +23,10 @@
 #include "view.h"
 #include "list.h"
 #include "text.h"
+#include "textbox.h"
 #include "button.h"
 #include "progress_bar.h"
 #include "option.h"
+#include "property.h"
 
 #endif

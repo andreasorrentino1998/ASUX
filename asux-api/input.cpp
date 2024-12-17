@@ -7,6 +7,9 @@ UIComponent* Input::triggerActions(const UIComponent *component, Key key){
     UIComponent *dirtyComponent = nullptr;          // On-top dirty component
     UIComponent *triggerComponent = nullptr;        // The component which triggered the action
 
+    // TODO: If Key is a letter, handle the case insensitiveness of the action
+    if((key >= Key::A && key <= Key::Z) || (key >= Key::a && key <= Key::z));
+
     // Trigger actions defined on the focused component child
     const UIComponent* child = component->getFocusedComponent();
     if(child != nullptr) triggerComponent = triggerActions(child, key);
@@ -19,8 +22,22 @@ UIComponent* Input::triggerActions(const UIComponent *component, Key key){
         dirtyComponent = (*it->second).getInstance();
     }
 
+    // Trigger "AnyKey-Event" actions
+    range = component->getActions().equal_range(Key::Any);
+    for(auto it = range.first; it != range.second; it++){
+        (*it->second)(key);
+        dirtyComponent = (*it->second).getInstance();
+    }
+
     // TODO: Think to a better software design ===============
     auto range2 = component->getIndexedActions().equal_range(key);
+    for(auto it = range2.first; it != range2.second; it++){
+        (*it->second).func((*it->second).index);
+        dirtyComponent = (*it->second).instance;
+    }
+
+    // Trigger "AnyKey-Event" indexed actions
+    range2 = component->getIndexedActions().equal_range(Key::Any);
     for(auto it = range2.first; it != range2.second; it++){
         (*it->second).func((*it->second).index);
         dirtyComponent = (*it->second).instance;
@@ -58,8 +75,9 @@ Key Input::getInputKey(){
     if(buffer[0] == ASCIIKey::LineFeed && buffer[1] == ASCIIKey::Null) return Key::Enter; // UNIX (Linux, macOS)
     else if(buffer[0] == ASCIIKey::CarriageReturn && buffer[1] == ASCIIKey::LineFeed) return Key::Enter; // Windows
 
-    if(buffer[0] > ASCIIKey::A && buffer[0] < ASCIIKey::Z) return static_cast<Key>(buffer[0]);
-    if(buffer[0] > ASCIIKey::a && buffer[0] < ASCIIKey::z) return static_cast<Key>(toupper(buffer[0]));
+    if((buffer[0] >= ASCIIKey::A && buffer[0] <= ASCIIKey::Z) || (buffer[0] >= ASCIIKey::a && buffer[0] <= ASCIIKey::z) ||
+    (buffer[0] >= ASCIIKey::N0 && buffer[0] <= ASCIIKey::N9) || (buffer[0] == ASCIIKey::Space))
+        return static_cast<Key>(buffer[0]);
     
     delete buffer;
 

@@ -3,6 +3,8 @@ ASUX (Advanced Shell User Experience) is a lightweight C++ reactive framework fo
 
 ASUX is a reactive framework. The term "reactive" in ASUX refers to the framework's ability to automatically reflect changes in component states on the user interface, without requiring the developer to write additional code. The framework provides built-in components specifically designed for text-based user interfaces (TUI), along with mechanisms for navigating the application and intercepting input events from the terminal. It uses a declarative approach to define user interfaces directly in C++ relying on method chaining and macros to reduce verbosity.
 
+**⚠️ Disclaimer:** ASUX is still in development, so it's not recommended for production use.
+
 ## Project structure
 An ASUX application follows this project structure:
 
