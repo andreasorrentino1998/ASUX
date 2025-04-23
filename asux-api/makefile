@@ -20,7 +20,7 @@ ASUX_LIB = $(TARGET_DIR)/libASUX.a
 
 # Compilator config
 CXX = g++
-CXXFLAGS = -Wall -Wextra -std=c++17
+CXXFLAGS = -g -Wall -Wextra -std=c++17
 
 # Project source files
 SOURCES = $(wildcard *.cpp) $(wildcard components/*.cpp) $(wildcard components/properties/*.cpp) $(wildcard utility/*.cpp)
