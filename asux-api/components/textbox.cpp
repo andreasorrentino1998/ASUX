@@ -85,6 +85,7 @@ void TextBox::handleKey(Key key){
 
     if(key == Key::Backspace && (*this->_text).length() > 0) (*this->_text).pop_back();
     if(key == Key::Space) (*this->_text) += " ";
+    if(key == Key::Slash) (*this->_text) += (char) key;
     else if((key >= Key::A && key <= Key::Z) || (key >= Key::a && key <= Key::z) || (key >= Key::N0 && key <= Key::N9))
         (*this->_text) += (char) key;
 }

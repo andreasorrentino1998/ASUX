@@ -34,6 +34,7 @@ enum ASCIIKey {
     ESC = 27,
     Space = 32,
     ExclamationMark = 33,
+    Slash = 47,
 
     N0 = 48, N1, N2, N3, N4, N5, N6, N7, N8, N9,
 
@@ -67,6 +68,7 @@ enum class Key {
     Backspace = 8,
     ESC = 27,
     Space = 32,
+    Slash = 47,
     N0 = 48, N1, N2, N3, N4, N5, N6, N7, N8, N9,
     A = 65, B, C, D, E, F, G, H, I, 
     J, K, L, M, N, O, P, Q, R, S,

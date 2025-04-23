@@ -71,6 +71,8 @@ Key Input::getInputKey(){
     else if(buffer[0] == ASCIIKey::ESC && buffer[1] == ASCIIKey::Null) return Key::ESC;
 
     if(buffer[0] == ASCIIKey::Backspace || buffer[0] == ASCIIKey::Delete) return Key::Backspace;
+
+    if(buffer[0] == ASCIIKey::Slash) return Key::Slash;
     
     if(buffer[0] == ASCIIKey::LineFeed && buffer[1] == ASCIIKey::Null) return Key::Enter; // UNIX (Linux, macOS)
     else if(buffer[0] == ASCIIKey::CarriageReturn && buffer[1] == ASCIIKey::LineFeed) return Key::Enter; // Windows
