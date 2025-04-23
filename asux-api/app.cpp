@@ -22,6 +22,7 @@
 #include "terminal.h"
 #include "builder.h"
 #include "input.h"
+#include "components/textbox.h"
 #include <cctype>       // Provides: toupper()
 
 using namespace ASUX;
@@ -87,9 +88,9 @@ void App::runLoop(){
                 exit(0);
                 break;
             case Key::Backspace:
-                // TODO: handle better the backspace behavior on textbox
+                // If the focused component is a TextBox, don't navigate back
                 dirtyComponent = Input::triggerActions(view, key);
-                navigator->navigateBack();
+                if(!(dynamic_cast<TextBox*>(view->getFocusedComponent()))) navigator->navigateBack();
                 break;
             default:
                 dirtyComponent = Input::triggerActions(view, key);
