@@ -70,8 +70,8 @@ int List::getNumberOfFocusableComponents() const {
 UIComponent* List::getFocusableElementByIndex(int index) const {
     if(_scrollable){
         if(index < (int) _itemsCount){
-            if(this->y < _itemsToDisplay / 2) return this->children[index];
-            else if(this->y + (_itemsToDisplay / 2) < _itemsCount) return this->children[(_itemsToDisplay / 2)-1];
+            if(this->y < _itemsToDisplay / 2.0) return this->children[index];
+            else if(this->y + (_itemsToDisplay / 2.0) < _itemsCount) return this->children[(_itemsToDisplay / 2)];
             else return this->children[(_itemsToDisplay - 1) - ((_itemsCount-1) - this->y)];
         }
         else return nullptr;
@@ -108,7 +108,7 @@ const vector<UIComponent*> List::build(){
         2. The item is inside the initial interval [0,N] and the cursor position is not beyond the half of this interval.
         3. The item is one of the last N of the list, and the cursor position + (N/2) exceed the list length.
     */
-    #define condition1(i) ((int)i > (int)(this->y - middleY) && i <= this->y + middleY)
+    #define condition1(i) ((int)i >= (int)(this->y - middleY) && i <= this->y + middleY)
     #define condition2(i) (i >= 0 && i < _itemsToDisplay && this->y < middleY)
     #define condition3(i) (this->y + middleY >= _itemsCount && (int)i >= (int)(_itemsCount - _itemsToDisplay))
     
