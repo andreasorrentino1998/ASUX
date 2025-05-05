@@ -26,17 +26,24 @@ void Builder::build(UIComponent *component){
     // If it's a raw component, it doesn't have child, so just return.
     // Otherwise deallocate its old children and build them again.
     if(RawComponent *raw = dynamic_cast<RawComponent*>(component)) return;
-    
-    vector<UIComponent*> children = component->getChildren();
-    if(children.size() > 0){
-        for(UIComponent* child: children) delete child;
+
+    // If it's dirty, rebuild it.
+    // But first, deallocate its children.
+    if(component->isDirty()){
+        vector<UIComponent*> children = component->getChildren();
+        if(children.size() > 0){
+            for(UIComponent* child: children) delete child;
+        }
+
+        // Build its children recursively.
+        // We set them as dirty, so we can rebuild them using recursion.
+        component->setChildren(component->build());
+        children = component->getChildren();
+        for(unsigned i = 0; i < children.size(); i++) build(children[i]);
+
+        component->setDirty(false);
     }
     
-    // Build its children recursively
-    component->setChildren(component->build());
-    children = component->getChildren();
-    for(unsigned i = 0; i < children.size(); i++) build(children[i]);
-
     // If it's a view (root component) get the new focused component
     // And set its focus property to true.
     if(View *view = dynamic_cast<View*>(component)){

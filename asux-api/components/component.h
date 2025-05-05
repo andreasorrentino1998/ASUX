@@ -61,10 +61,11 @@ class UIComponent {
         vector<UIComponent*> children;
         multimap<Key, Action*> actions;
         multimap<Key, IndexedAction*> indexedActions;
+        bool dirty;
     public:
         UIComponent(Position position = Position::Default);
         virtual ~UIComponent(){};  // Required for using it as an item in <vector>.
-        
+
         virtual const vector<UIComponent*>& getChildren() const;
         virtual const multimap<Key, Action*>& getActions() const;
         virtual const multimap<Key, IndexedAction*>& getIndexedActions() const { return this->indexedActions; }
@@ -73,6 +74,7 @@ class UIComponent {
         virtual const Size& getSize() const;
         virtual unsigned getWidth() const;
         virtual unsigned getHeight() const;
+        virtual bool isDirty() const;
         virtual bool isFocusable() const;
         virtual bool isFocused() const;
         virtual UIComponent* getFocusedComponent() const;
@@ -95,6 +97,7 @@ class UIComponent {
 
         virtual bool shouldShowCursor() const;
         
+        void setDirty(bool value);
         virtual void setChildren(const vector<UIComponent*> children);
 
         virtual UIComponent& visibility(bool value);
@@ -124,6 +127,7 @@ class UIComponent {
         virtual UIComponent& showCursor(bool value);
 
         virtual const vector<UIComponent*> build() = 0;
+        void stateChanged();
 
         template <typename T>
         UIComponent& onKey(Key key, void (T::*func)(Key), T* instance){

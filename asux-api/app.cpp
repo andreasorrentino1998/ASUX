@@ -43,40 +43,40 @@ void App::setRootView(View *view){
     this->navigator->navigateTo(view);
 }
 
+void App::refresh(UIComponent *component){
+    // Rebuild the component
+    Builder::build(component);
+
+    // Get the current view and the navigation bar
+    View *view = navigator->getCurrentView();
+    NavigationBar& navigationBar = this->navigator->getNavigationBar();
+
+    // Render the entire view again
+    Terminal::clear();
+    if(navigator->navigationBarShouldBeRendered()) Renderer::render(&navigationBar);
+    Renderer::render(view);
+}
+
 void App::runLoop(){
     // Init the terminal
     Terminal::init();
 
-    // In our model we made the assumption "action -> model change".
-    // Thus, if a component has triggered an action, we need to rebuild it
-    // along with its children and doing a new rendering of the component tree.
-
-    // At the boot we suppose the model has been changed.
-    // In order to build the component tree and render it.
-    UIComponent *dirtyComponent = nullptr;
     View *oldView = nullptr;
     
     do{
         // Get the current view and the navigation bar
         View *view = navigator->getCurrentView();
-        NavigationBar navigationBar = this->navigator->getNavigationBar();
+        NavigationBar& navigationBar = this->navigator->getNavigationBar();
 
         // If there is a different view on the screen
         // We need to build it, so the view is marked as dirty component.
         if(view != oldView){
-            dirtyComponent = view;
+            view->setDirty(true);
             oldView = view;
         }
         
-        // Rebuild the on-top dirty component 
-        if(dirtyComponent != nullptr){
-            Builder::build(dirtyComponent);
-
-            // Render the updated UI
-            Terminal::clear();
-            if(navigator->navigationBarShouldBeRendered()) Renderer::render(&navigationBar);
-            Renderer::render(view);
-        }
+        // Refresh the view
+        refresh(view);
 
         // Get the keyboard input from user
         Key key = Input::getInputKey();
@@ -89,11 +89,11 @@ void App::runLoop(){
                 break;
             case Key::Backspace:
                 // If the focused component is a TextBox, don't navigate back
-                dirtyComponent = Input::triggerActions(view, key);
+                Input::triggerActions(view, key);
                 if(!(dynamic_cast<TextBox*>(view->getFocusedComponent()))) navigator->navigateBack();
                 break;
             default:
-                dirtyComponent = Input::triggerActions(view, key);
+                Input::triggerActions(view, key);
                 break;
         }
     } while(true);

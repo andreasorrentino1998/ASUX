@@ -31,6 +31,7 @@ UIComponent::UIComponent(Position position){
     this->_showCursor = false;
     this->children = vector<UIComponent*>();
     this->actions = multimap<Key, Action*>();
+    this->dirty = true;
 }
 
 const vector<UIComponent*>& UIComponent::getChildren() const {
@@ -43,6 +44,10 @@ const multimap<Key, Action*>& UIComponent::getActions() const {
 
 bool UIComponent::getVisibility() const {
     return this->_visibility;
+}
+
+bool UIComponent::isDirty() const {
+    return this->dirty;
 }
 
 bool UIComponent::isFocusable() const {
@@ -115,6 +120,10 @@ Color UIComponent::getColor() const {
 
 bool UIComponent::shouldShowCursor() const {
     return this->_showCursor;
+}
+
+void UIComponent::setDirty(bool value){
+    this->dirty = value;
 }
 
 void UIComponent::setChildren(const vector<UIComponent*> children){
@@ -255,4 +264,8 @@ int UIComponent::getNumberOfFocusableComponents() const {
         focusableComponents += child->getNumberOfFocusableComponents();
     }
     return focusableComponents;
+}
+
+void UIComponent::stateChanged(){
+    dirty = true;
 }

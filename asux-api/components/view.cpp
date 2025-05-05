@@ -112,6 +112,8 @@ void View::moveCursor(int x, int y){
     if(newY < 0) this->_y = 0;
     else if(newY > static_cast<int>(_yMax)) this->_y = _yMax;
     else this->_y = newY;
+
+    stateChanged();
 }
 
 void View::moveCursor(Key key){

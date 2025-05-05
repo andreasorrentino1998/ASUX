@@ -20,6 +20,7 @@
 #define APP_H
 
 #include "navigator.h"
+#include "components/component.h"
 
 namespace ASUX {
 
@@ -31,6 +32,7 @@ class App {
     public:
         static App* init();
         void setRootView(View *view);
+        void refresh(UIComponent *component);
         void runLoop();
 };
 

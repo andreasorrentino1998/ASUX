@@ -3,48 +3,39 @@
 
 using namespace ASUX;
 
-UIComponent* Input::triggerActions(const UIComponent *component, Key key){
-    UIComponent *dirtyComponent = nullptr;          // On-top dirty component
-    UIComponent *triggerComponent = nullptr;        // The component which triggered the action
-
+void Input::triggerActions(const UIComponent *component, Key key){
     // TODO: If Key is a letter, handle the case insensitiveness of the action
-    if((key >= Key::A && key <= Key::Z) || (key >= Key::a && key <= Key::z));
+    //if((key >= Key::A && key <= Key::Z) || (key >= Key::a && key <= Key::z));
 
     // Trigger actions defined on the focused component child
     const UIComponent* child = component->getFocusedComponent();
-    if(child != nullptr) triggerComponent = triggerActions(child, key);
-    if(triggerComponent != nullptr) dirtyComponent = triggerComponent;
+    if(child != nullptr) triggerActions(child, key);
 
     // Trigger actions defined on the current component
     auto range = component->getActions().equal_range(key);
     for(auto it = range.first; it != range.second; it++){
         (*it->second)(key);
-        dirtyComponent = (*it->second).getInstance();
     }
 
     // Trigger "AnyKey-Event" actions
     range = component->getActions().equal_range(Key::Any);
     for(auto it = range.first; it != range.second; it++){
         (*it->second)(key);
-        dirtyComponent = (*it->second).getInstance();
     }
+        
 
     // TODO: Think to a better software design ===============
     auto range2 = component->getIndexedActions().equal_range(key);
     for(auto it = range2.first; it != range2.second; it++){
         (*it->second).func((*it->second).index);
-        dirtyComponent = (*it->second).instance;
     }
 
     // Trigger "AnyKey-Event" indexed actions
     range2 = component->getIndexedActions().equal_range(Key::Any);
     for(auto it = range2.first; it != range2.second; it++){
         (*it->second).func((*it->second).index);
-        dirtyComponent = (*it->second).instance;
     }
     // =========================
-
-    return dirtyComponent;
 }
 
 Key Input::getInputKey(){
