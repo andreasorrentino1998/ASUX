@@ -1,8 +1,8 @@
 /**
-* ASUX: A lightweight C++ reactive framework for building terminal-based applications.
-* 
+* ASUX: A lightweight C++ reactive framework for building terminal-based applications. 
+*
 * Authors:
-* © 2024 - Andrea Sorrentino
+* © 2025 - Andrea Sorrentino
 * 
 * ASUX is free software: you can redistribute it and/or modify it under the
 * terms of the GNU General Public License as published by the Free Software Foundation,
@@ -16,27 +16,14 @@
 * If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef APP_H
-#define APP_H
+#pragma once
 
-#include "navigator.h"
-#include "view_factory.h"
-#include "components/component.h"
+#include <string>
 
-namespace ASUX {
+using namespace std;
 
-class App {
-    private:
-        App *instance;
-        Navigator *navigator;
-        App();
+class NavigatorService {
     public:
-        static App* init(IViewFactory *viewFactory);
-        void setRootView(string viewID);
-        void refresh(UIComponent *component);
-        void runLoop();
+        virtual void navigateTo(string viewID) = 0;
+        virtual void navigateBack() = 0;
 };
-
-}
-
-#endif

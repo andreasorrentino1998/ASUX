@@ -20,7 +20,8 @@
 
 using namespace ASUX;
 
-Navigator::Navigator(){
+Navigator::Navigator(IViewFactory* viewFactory){
+    this->viewFactory = viewFactory;
     this->navigationBarVisibility = true;
 }
 
@@ -36,8 +37,11 @@ bool Navigator::navigationBarShouldBeRendered() const {
     return this->navigationBarVisibility;
 }
 
-void Navigator::navigateTo(View *view){
-    if(view == nullptr) return;
+void Navigator::navigateTo(string viewID){
+    if(find(viewIDStack.begin(), viewIDStack.end(), viewID) != viewIDStack.end()) return;
+
+    // Create the view
+    View* view = viewFactory->createView(viewID);
 
     // Update the navigation bar info
     this->navigationBar.setTitle(view->getTitle());
@@ -49,6 +53,7 @@ void Navigator::navigateTo(View *view){
     // Push the new view on the stack
     view->setNavigator(this);
     this->viewStack.push(view);
+    this->viewIDStack.push_back(viewID);
 }
 
 View* Navigator::getCurrentView() {
@@ -60,6 +65,7 @@ void Navigator::navigateBack(){
     if(this->viewStack.size() > 1){
         delete this->viewStack.top();     // Deallocate the view
         this->viewStack.pop();            // Remove the pointer on the stack with a pop
+        this->viewIDStack.pop_back();     // Remove the last viewID from the stack
     }
 
     // Update the navigation bar info
@@ -69,7 +75,7 @@ void Navigator::navigateBack(){
         navigationBar.setBackButtonVisibility(false);
     }
     else{
-        // Get the back view
+        // Get the back view (in order to update the back label)
         View *topView = this->viewStack.top();
         this->viewStack.pop();
         View *backView = this->viewStack.top();

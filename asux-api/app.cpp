@@ -33,14 +33,14 @@ App::App(){
     this->navigator = nullptr;
 }
 
-App* App::init(){
+App* App::init(IViewFactory *viewFactory){
     App *app = new App();
-    app->navigator = new Navigator();
+    app->navigator = new Navigator(viewFactory);
     return app;
 }
 
-void App::setRootView(View *view){
-    this->navigator->navigateTo(view);
+void App::setRootView(string viewID){
+    this->navigator->navigateTo(viewID);
 }
 
 void App::refresh(UIComponent *component){

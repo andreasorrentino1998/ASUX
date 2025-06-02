@@ -66,7 +66,7 @@ void View::setTitle(string &title){
     this->_title = title;
 };
 
-void View::setNavigator(Navigator *navigator){
+void View::setNavigator(NavigatorService *navigator){
     this->navigator = navigator;
 }
 

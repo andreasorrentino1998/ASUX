@@ -20,7 +20,7 @@
 #define VIEW_H
 
 #include "component.h"
-#include "../navigator.h"
+#include "../navigator_service.h"
 #include <string>
 
 // Macro to simplify declarative syntax for navigation and routing
@@ -39,13 +39,10 @@ using namespace std;
 
 namespace ASUX {
 
-// Forward declaration
-class Navigator;
-
 class View: public UIComponent {
     protected:
         string _title;
-        Navigator *navigator;
+        NavigatorService *navigator;
         unsigned _x;
         unsigned _y;
         unsigned _xMax;
@@ -68,7 +65,7 @@ class View: public UIComponent {
         void moveCursor(Key key);
 
         void setTitle(string &title);
-        void setNavigator(Navigator *navigator);
+        void setNavigator(NavigatorService *navigator);
 
         View& title(const string &title);
         View& x(unsigned value);

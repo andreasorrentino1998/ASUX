@@ -19,7 +19,8 @@
 #ifndef NAVIGATOR_H
 #define NAVIGATOR_H
 
-#include "components/view.h"
+#include "navigator_service.h"
+#include "view_factory.h"
 #include "components/navigation_bar.h"
 
 #include <stack>                    // Provides: stack
@@ -28,23 +29,21 @@ using namespace std;
 
 namespace ASUX {
 
-// Forward declaration (to solve circular-dependency)
-// TODO: Think of a better software design to solve that.
-class View;
-
-class Navigator {
+class Navigator: public NavigatorService {
     private:
+        IViewFactory* viewFactory;
         stack<View*> viewStack;
+        vector<string> viewIDStack;
         NavigationBar navigationBar;
         bool navigationBarVisibility;
     public:
-        Navigator();
+        Navigator(IViewFactory* viewFactory);
         NavigationBar& getNavigationBar();     // TODO: think about const and renderer
         View* getCurrentView();
         bool navigationBarShouldBeRendered() const;
         void setNavigationBarVisibility(const bool value);
-        void navigateTo(View *view);
-        void navigateBack();
+        void navigateTo(string viewID) override;
+        void navigateBack() override;
 };
 
 }
