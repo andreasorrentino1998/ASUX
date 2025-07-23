@@ -27,8 +27,7 @@ void Builder::build(UIComponent *component){
     // Otherwise deallocate its old children and build them again.
     if(RawComponent *raw = dynamic_cast<RawComponent*>(component)) return;
 
-    // If it's dirty, rebuild it.
-    // But first, deallocate its children.
+    // If it's dirty, rebuild it. But first, deallocate its children.
     if(component->isDirty()){
         vector<UIComponent*> children = component->getChildren();
         if(children.size() > 0){

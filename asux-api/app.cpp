@@ -23,6 +23,9 @@
 #include "builder.h"
 #include "input.h"
 #include "components/textbox.h"
+
+#include <chrono>
+#include <thread>
 #include <cctype>       // Provides: toupper()
 
 using namespace ASUX;
@@ -43,6 +46,14 @@ void App::setRootView(string viewID){
     this->navigator->navigateTo(viewID);
 }
 
+void App::registerRunnable(Runnable& runnable){
+    tasks.emplace_back(PeriodicTask{
+        .refreshTime = runnable.getRefreshRate(),
+        .lastUpdate = chrono::high_resolution_clock::now(),
+        .runnable = &runnable,
+    });
+}
+
 void App::refresh(UIComponent *component){
     // Rebuild the component
     Builder::build(component);
@@ -57,13 +68,53 @@ void App::refresh(UIComponent *component){
     Renderer::render(view);
 }
 
+void App::eventLoop(){
+    while(!shouldExit){
+        Key key = Input::getInputKey();
+        {
+            lock_guard<mutex> lock(queueMutex);
+            keyEventsQueue.push_back(key);
+        }
+    }
+}
+
 void App::runLoop(){
     // Init the terminal
     Terminal::init();
 
     View *oldView = nullptr;
+
+    // Add a task for updating the view
+    tasks.emplace_back(PeriodicTask{
+        .callback = [&](){ this->refresh(this->navigator->getCurrentView()); },
+        .refreshTime = 1.0 / 10,
+        .lastUpdate = chrono::high_resolution_clock::now(),
+        .runnable = nullptr,
+    });
+
+    // Start the event loop
+    thread eventLoopThread(&App::eventLoop, this);
     
-    do{
+    while(true){
+        // Execute the periodic tasks
+        for(auto& task: tasks){
+            chrono::duration<double> elapsed = chrono::high_resolution_clock::now() - task.lastUpdate;
+            if(elapsed.count() >= task.refreshTime){
+                task.lastUpdate = chrono::high_resolution_clock::now();
+                if(task.runnable != nullptr){
+                    task.refreshTime = task.runnable->getRefreshRate();
+                    task.runnable->onUpdate();
+                }
+                else task.callback();
+            }
+        }
+
+        // Calculate the nextFrameTime for the earliest periodic task
+        /*auto earliest = min_element(tasks.begin(), tasks.end(), [](auto& t1, auto& t2) {
+            return t1.lastUpdate + chrono::duration<double>(t1.refreshTime) < t2.lastUpdate + chrono::duration<double>(t2.refreshTime);
+        });
+        auto nextFrameTime = earliest->lastUpdate + chrono::duration<double>(earliest->refreshTime);*/
+
         // Get the current view and the navigation bar
         View *view = navigator->getCurrentView();
         NavigationBar& navigationBar = this->navigator->getNavigationBar();
@@ -74,27 +125,36 @@ void App::runLoop(){
             view->setDirty(true);
             oldView = view;
         }
-        
-        // Refresh the view
-        refresh(view);
 
-        // Get the keyboard input from user
-        Key key = Input::getInputKey();
-        
-        // App navigation logic
-        switch(key){
-            case Key::ESC:
-                Terminal::deinit();
-                exit(0);
-                break;
-            case Key::Backspace:
-                // If the focused component is a TextBox, don't navigate back
-                Input::triggerActions(view, key);
-                if(!(dynamic_cast<TextBox*>(view->getFocusedComponent()))) navigator->navigateBack();
-                break;
-            default:
-                Input::triggerActions(view, key);
-                break;
+        // Process the user input
+        queueMutex.lock();
+        if(keyEventsQueue.size() > 0){
+            Key key = keyEventsQueue.front();
+            keyEventsQueue.pop_front();
+            queueMutex.unlock();
+
+            // App navigation logic
+            switch(key){
+                case Key::ESC:
+                    shouldExit = true;
+                    if(eventLoopThread.joinable()) eventLoopThread.join();
+                    Terminal::deinit();
+                    exit(0);
+                    break;
+                case Key::Backspace:
+                    // If the focused component is a TextBox, don't navigate back
+                    Input::triggerActions(view, key);
+                    if(!(dynamic_cast<TextBox*>(view->getFocusedComponent()))) navigator->navigateBack();
+                    break;
+                default:
+                    Input::triggerActions(view, key);
+                    break;
+            }
         }
-    } while(true);
+        queueMutex.unlock();
+
+        // Sleep for synchronizing to the target FPS
+        //this_thread::sleep_until(nextFrameTime);
+        this_thread::sleep_for(chrono::duration<double>(0.0001));
+    }
 }

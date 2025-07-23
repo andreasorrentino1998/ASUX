@@ -22,17 +22,33 @@
 #include "navigator.h"
 #include "view_factory.h"
 #include "components/component.h"
+#include "runnable.h"
+#include "task.h"
+
+#include <deque>
+#include <mutex>
+#include <atomic>
 
 namespace ASUX {
+
+using namespace std;
 
 class App {
     private:
         App *instance;
         Navigator *navigator;
+        vector<PeriodicTask> tasks;
+        
+        mutex queueMutex;
+        deque<Key> keyEventsQueue;
+        atomic<bool> shouldExit{false};
+        
         App();
+        void eventLoop();
     public:
         static App* init(IViewFactory *viewFactory);
         void setRootView(string viewID);
+        void registerRunnable(Runnable& runnable);
         void refresh(UIComponent *component);
         void runLoop();
 };
